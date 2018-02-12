@@ -6,7 +6,7 @@ exports.postUrl = (url, form) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJrIjoiaTFBdWNYQ3hXMU15ejJTdVh0RllHQ0dsT2xFNDdGZUwiLCJuIjoibmFpcyIsImlkIjoxfQ=='
+            'Authorization': 'Bearer <>'
         },
         // credentials: 'include',
         method: 'POST',
