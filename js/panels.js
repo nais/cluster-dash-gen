@@ -1,0 +1,413 @@
+const measurement = require('./measurements')
+exports.text = (clusterName) => {
+    const id = Math.random(1, 1000000)
+    panel = {
+        "content": `<p>\n<img src=\"https://confluence.adeo.no/download/thumbnails/245392474/nais-hvit.png?version=1&modificationDate=1510648603680&api=v2\" height=\"150\" align=\"right\" /img>\n<font size=\"40\">${clusterName}</font>\n</p>`,
+        "height": "100",
+        "id": id,
+        "links": [],
+        "mode": "html",
+        "span": 12,
+        "title": "",
+        "transparent": true,
+        "type": "text"
+    }
+    console.log(` - Inserting text panel with cluster name ${clusterName}`)
+    return panel
+}
+
+exports.singleAgg = (hostname) => {
+    const id = Math.random(1, 1000000)
+    panel = {
+        "cacheTimeout": null,
+        "colorBackground": true,
+        "colorValue": false,
+        "colors": [
+            "#299c46",
+            "#299c46",
+            "#d44a3a"
+        ],
+        "datasource": "influxdb",
+        "format": "none",
+        "id": id,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+            {
+                "name": "value to text",
+                "value": 1
+            },
+            {
+                "name": "range to text",
+                "value": 2
+            }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+            {
+                "from": "null",
+                "text": "N/A",
+                "to": "null"
+            }
+        ],
+        "span": 3,
+        "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+        },
+        "tableColumn": "",
+        "targets": [
+            {
+                "dsType": "influxdb",
+                "groupBy": [
+                    {
+                        "params": [
+                            "$__interval"
+                        ],
+                        "type": "time"
+                    },
+                    {
+                        "params": [
+                            "previous"
+                        ],
+                        "type": "fill"
+                    }
+                ],
+                "measurement": "nais.aggregate",
+                "orderByTime": "ASC",
+                "policy": "default",
+                "refId": "A",
+                "resultFormat": "time_series",
+                "select": [
+                    [
+                        {
+                            "params": [
+                                "value"
+                            ],
+                            "type": "field"
+                        },
+                        {
+                            "params": [],
+                            "type": "mean"
+                        }
+                    ]
+                ],
+                "tags": [
+                    {
+                        "key": "hostname",
+                        "operator": "=",
+                        "value": hostname
+                    }
+                ]
+            }
+        ],
+        "thresholds": "0,1",
+        "title": hostname,
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "120%",
+        "valueMaps": [
+            {
+                "op": "=",
+                "text": "Healthy",
+                "value": "0"
+            },
+            {
+                "op": "=",
+                "text": "Error",
+                "value": "1"
+            }
+        ],
+        "valueName": "current"
+    }
+    return panel
+}
+
+exports.clusterCpuLoad = (nodes) => {
+    const id = Math.random(1, 1000000)
+    const generateMeasurements = (nodes) => {
+        let measurements = []
+        if (nodes.length === 1) {
+            measurements.push(measurement.cpuIdle(nodes[0]))
+        }
+        if (nodes.length >= 2) {
+            nodes.forEach((e, i) => {
+                measurements.push(measurement.cpuIdle(nodes[i]))
+            })
+            return measurements
+        }
+    }
+    panel = {
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "influxdb",
+        "fill": 1,
+        "hideTimeOverride": true,
+        "id": id,
+        "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "connected",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "span": 4,
+        "stack": false,
+        "steppedLine": false,
+        "targets": generateMeasurements(nodes),
+        "thresholds": [],
+        "timeFrom": "1d",
+        "timeShift": null,
+        "title": "Cluster CPU load",
+        "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+        },
+        "yaxes": [
+            {
+                "format": "percent",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            },
+            {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            }
+        ]
+    }
+    console.log(` - Inserting graph panel: Cluster CPU load, with: ${nodes}`)
+    return panel
+}
+
+exports.clusterDiskVarUsage = (nodes) => {
+    const id = Math.random(1, 1000000)
+    const generateMeasurements = (nodes) => {
+        let measurements = []
+        if (nodes.length === 1) {
+            measurements.push(measurement.diskVarUsage(nodes[0]))
+        }
+        if (nodes.length >= 2) {
+            nodes.forEach((e, i) => {
+                measurements.push(measurement.diskVarUsage(nodes[i]))
+            })
+            return measurements
+        }
+    }
+    panel = {
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "influxdb",
+        "fill": 1,
+        "hideTimeOverride": true,
+        "id": id,
+        "interval": "5m",
+        "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+            {
+                "alias": "used disk /var",
+                "color": "#D683CE"
+            }
+        ],
+        "spaceLength": 10,
+        "span": 4,
+        "stack": false,
+        "steppedLine": false,
+        "targets": generateMeasurements(nodes),
+        "thresholds": [],
+        "timeFrom": "1d",
+        "timeShift": null,
+        "title": "Cluster disk usage",
+        "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+        },
+        "yaxes": [
+            {
+                "format": "percent",
+                "label": null,
+                "logBase": 1,
+                "max": "100",
+                "min": "1",
+                "show": true
+            },
+            {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            }
+        ]
+    }
+    console.log(` - Inserting graph panel: Cluster Disk Var Usage, with: ${nodes}`)
+    return panel
+}
+
+exports.clusterMemoryUsage = (nodes) => {
+    const id = Math.random(1, 1000000)
+    const generateMeasurements = (nodes) => {
+        let measurements = []
+        if (nodes.length === 1) {
+            measurements.push(measurement.memoryUsageWOBuffersCaches(nodes[0]))
+        }
+        if (nodes.length >= 2) {
+            nodes.forEach((e, i) => {
+                measurements.push(measurement.memoryUsageWOBuffersCaches(nodes[i]))
+            })
+            return measurements
+        }
+    }
+    panel = {
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": "influxdb",
+        "fill": 1,
+        "hideTimeOverride": true,
+        "id": id,
+        "interval": "5m",
+        "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [
+            {
+                "alias": "used disk /var",
+                "color": "#D683CE"
+            }
+        ],
+        "spaceLength": 10,
+        "span": 4,
+        "stack": false,
+        "steppedLine": false,
+        "targets": generateMeasurements(nodes),
+        "thresholds": [],
+        "timeFrom": "1d",
+        "timeShift": null,
+        "title": "Cluster memory usage",
+        "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+        },
+        "yaxes": [
+            {
+                "format": "percent",
+                "label": null,
+                "logBase": 1,
+                "max": "100",
+                "min": "1",
+                "show": true
+            },
+            {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            }
+        ]
+    }
+    console.log(` - Inserting graph panel: Cluster Memory Usage, with: ${nodes}`)
+    return panel
+}

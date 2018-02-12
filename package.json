@@ -1,0 +1,23 @@
+{
+  "name": "cluster-dash-gen",
+  "version": "1.0.0",
+  "description": "Generating cluster dashboards for grafana",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nais/cluster-dash-gen.git"
+  },
+  "author": "Even Haasted",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nais/cluster-dash-gen/issues"
+  },
+  "homepage": "https://github.com/nais/cluster-dash-gen#readme",
+  "dependencies": {
+    "commander": "^2.14.1",
+    "node-fetch": "^2.0.0"
+  }
+}
