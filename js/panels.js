@@ -1,4 +1,20 @@
 const measurement = require('./measurements')
+
+const generateMeasurements = (nodes, type) => {
+    let measurements = []
+    if (typeof(nodes) === 'string') {
+    }
+    if (nodes.length === 1 && typeof(nodes) === 'array') {
+        measurements.push(measurement[type](nodes[0]))
+    }
+    if (nodes.length >= 2 && typeof(nodes) === 'array') {
+        nodes.forEach((e, i) => {
+            measurements.push(measurement[type](nodes[i]))
+        })
+    }
+    return measurements
+}
+
 exports.text = (clusterName) => {
     const id = Math.random(1, 1000000)
     panel = {
@@ -16,7 +32,7 @@ exports.text = (clusterName) => {
     return panel
 }
 
-exports.singleAgg = (hostname) => {
+exports.singleAgg = (node) => {
     const id = Math.random(1, 1000000)
     panel = {
         "cacheTimeout": null,
@@ -65,53 +81,9 @@ exports.singleAgg = (hostname) => {
             "show": false
         },
         "tableColumn": "",
-        "targets": [
-            {
-                "dsType": "influxdb",
-                "groupBy": [
-                    {
-                        "params": [
-                            "$__interval"
-                        ],
-                        "type": "time"
-                    },
-                    {
-                        "params": [
-                            "previous"
-                        ],
-                        "type": "fill"
-                    }
-                ],
-                "measurement": "nais.aggregate",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "refId": "A",
-                "resultFormat": "time_series",
-                "select": [
-                    [
-                        {
-                            "params": [
-                                "value"
-                            ],
-                            "type": "field"
-                        },
-                        {
-                            "params": [],
-                            "type": "mean"
-                        }
-                    ]
-                ],
-                "tags": [
-                    {
-                        "key": "hostname",
-                        "operator": "=",
-                        "value": hostname
-                    }
-                ]
-            }
-        ],
+        "targets": generateMeasurements(node, 'aggregate'),
         "thresholds": "0,1",
-        "title": hostname,
+        "title": node,
         "transparent": true,
         "type": "singlestat",
         "valueFontSize": "120%",
@@ -134,18 +106,6 @@ exports.singleAgg = (hostname) => {
 
 exports.clusterCpuLoad = (nodes) => {
     const id = Math.random(1, 1000000)
-    const generateMeasurements = (nodes) => {
-        let measurements = []
-        if (nodes.length === 1) {
-            measurements.push(measurement.cpuIdle(nodes[0]))
-        }
-        if (nodes.length >= 2) {
-            nodes.forEach((e, i) => {
-                measurements.push(measurement.cpuIdle(nodes[i]))
-            })
-            return measurements
-        }
-    }
     panel = {
         "bars": false,
         "dashLength": 10,
@@ -178,7 +138,7 @@ exports.clusterCpuLoad = (nodes) => {
         "span": 4,
         "stack": false,
         "steppedLine": false,
-        "targets": generateMeasurements(nodes),
+        "targets": generateMeasurements(nodes, 'cpuIdle'),
         "thresholds": [],
         "timeFrom": "1d",
         "timeShift": null,
@@ -222,18 +182,6 @@ exports.clusterCpuLoad = (nodes) => {
 
 exports.clusterDiskVarUsage = (nodes) => {
     const id = Math.random(1, 1000000)
-    const generateMeasurements = (nodes) => {
-        let measurements = []
-        if (nodes.length === 1) {
-            measurements.push(measurement.diskVarUsage(nodes[0]))
-        }
-        if (nodes.length >= 2) {
-            nodes.forEach((e, i) => {
-                measurements.push(measurement.diskVarUsage(nodes[i]))
-            })
-            return measurements
-        }
-    }
     panel = {
         "bars": false,
         "dashLength": 10,
@@ -274,7 +222,7 @@ exports.clusterDiskVarUsage = (nodes) => {
         "span": 4,
         "stack": false,
         "steppedLine": false,
-        "targets": generateMeasurements(nodes),
+        "targets": generateMeasurements(nodes, 'diskVarUsage') ,
         "thresholds": [],
         "timeFrom": "1d",
         "timeShift": null,
@@ -318,18 +266,6 @@ exports.clusterDiskVarUsage = (nodes) => {
 
 exports.clusterMemoryUsage = (nodes) => {
     const id = Math.random(1, 1000000)
-    const generateMeasurements = (nodes) => {
-        let measurements = []
-        if (nodes.length === 1) {
-            measurements.push(measurement.memoryUsageWOBuffersCaches(nodes[0]))
-        }
-        if (nodes.length >= 2) {
-            nodes.forEach((e, i) => {
-                measurements.push(measurement.memoryUsageWOBuffersCaches(nodes[i]))
-            })
-            return measurements
-        }
-    }
     panel = {
         "bars": false,
         "dashLength": 10,
@@ -370,7 +306,7 @@ exports.clusterMemoryUsage = (nodes) => {
         "span": 4,
         "stack": false,
         "steppedLine": false,
-        "targets": generateMeasurements(nodes),
+        "targets": generateMeasurements(nodes, 'memoryUsageWOBuffersCaches'),
         "thresholds": [],
         "timeFrom": "1d",
         "timeShift": null,

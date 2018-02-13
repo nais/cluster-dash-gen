@@ -1,4 +1,5 @@
 const fetch = require('node-fetch')
+const conf = require('../conf')
 
 exports.postUrl = (url, form) => {
     console.log(' - Publishing JSON dashboard to grafana:', url)
@@ -6,9 +7,8 @@ exports.postUrl = (url, form) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJrIjoiRTV5M1VLRVNsMVNKcmNFM3VOMFBqM0k0bXJOM2J2TmciLCJuIjoibmFpcy1kYXNoYm9hcmQiLCJpZCI6MX0='
+            'Authorization': `Bearer ${conf.bearerToken}` 
         },
-        // credentials: 'include',
         method: 'POST',
         body: JSON.stringify(form)
     }

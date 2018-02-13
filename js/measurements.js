@@ -1,3 +1,50 @@
+exports.aggregate = (node) => {
+    measurement = {
+        "dsType": "influxdb",
+        "groupBy": [
+            {
+                "params": [
+                    "$__interval"
+                ],
+                "type": "time"
+            },
+            {
+                "params": [
+                    "previous"
+                ],
+                "type": "fill"
+            }
+        ],
+        "measurement": "nais.aggregate",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+            [
+                {
+                    "params": [
+                        "value"
+                    ],
+                    "type": "field"
+                },
+                {
+                    "params": [],
+                    "type": "mean"
+                }
+            ]
+        ],
+        "tags": [
+            {
+                "key": "hostname",
+                "operator": "=",
+                "value": node
+            }
+        ]
+    }
+    return measurement
+}
+
 exports.cpuIdle = (node) => {
     measurement = {
         "alias": `$tag_category node: ${node}`,
