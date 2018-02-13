@@ -33,78 +33,6 @@ exports.text = (clusterName) => {
     return panel
 }
 
-exports.singleAgg = (node) => {
-    const id = Math.random(1, 1000000)
-    panel = {
-        "cacheTimeout": null,
-        "colorBackground": true,
-        "colorValue": false,
-        "colors": [
-            "#299c46",
-            "#299c46",
-            "#d44a3a"
-        ],
-        "datasource": "influxdb",
-        "format": "none",
-        "id": id,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-            {
-                "name": "value to text",
-                "value": 1
-            },
-            {
-                "name": "range to text",
-                "value": 2
-            }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-            {
-                "from": "null",
-                "text": "N/A",
-                "to": "null"
-            }
-        ],
-        "span": 3,
-        "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-        },
-        "tableColumn": "",
-        "targets": generateMeasurements(node, 'aggregate'),
-        "thresholds": "0,1",
-        "title": node,
-        "transparent": true,
-        "type": "singlestat",
-        "valueFontSize": "120%",
-        "valueMaps": [
-            {
-                "op": "=",
-                "text": "Healthy",
-                "value": "0"
-            },
-            {
-                "op": "=",
-                "text": "Error",
-                "value": "1"
-            }
-        ],
-        "valueName": "current"
-    }
-    return panel
-}
-
 exports.singleStat = (node, measurement) => {
     const id = Math.random(1, 1000000)
     panel = {
@@ -255,6 +183,3 @@ exports.graph = (nodes, measurement, title) => {
     console.log(` - Inserting graph panel: ${title}, with: ${nodes}`)
     return panel
 }
-
-
-
