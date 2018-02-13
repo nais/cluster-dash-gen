@@ -13,7 +13,7 @@ program
     .option('-c, --cluster <cluster name>', 'Cluster name')
     .option('-m, --masters <comma separated host list>', 'All master nodes in the cluster', list)
     .option('-w, --workers <comma separated host list>', 'All worker nodes in the cluster', list)
-    .parse(process.argv);
+    .parse(process.argv)
 
 console.log(' - Cluster name: %s', program.cluster)
 console.log(' - Master nodes: %j', program.masters)
