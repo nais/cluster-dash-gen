@@ -1,8 +1,8 @@
 const panel = require('./panels')
 
-const insertPanels = (params) => {
+const insertPanels = (panels) => {
     let panelArray = []
-    params.forEach((e) => {
+    panels.forEach((e) => {
         if (e.panel === 'singleStat') {
             if (typeof (e.nodes) === 'string') {
                 panelArray.push(panel.singleStat(e.nodes, e.measurement))
@@ -23,22 +23,20 @@ const insertPanels = (params) => {
             panelArray.push(panel.text(e.text))
         }
     })
-
     return panelArray
 }
 
-module.exports = (title, height, params) => {
-const size = 'h3'
+module.exports = (config, panels) => {
     row = {
-        "collapse": false,
-        "height": height,
-        "panels": insertPanels(params),
+        "collapse": config.collapse || false,
+        "height": config.height || 140,
+        "panels": insertPanels(panels),
         "repeat": null,
         "repeatIteration": null,
         "repeatRowId": null,
-        "showTitle": true,
-        "title": title,
-        "titleSize": size
+        "showTitle": config.showTitle || false,
+        "title": config.title || "Row, Row, Row, Your Boat",
+        "titleSize": config.titleSize || "h3"
     }
     return row
 }
