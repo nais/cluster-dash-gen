@@ -2,16 +2,20 @@ const measurement = require('./measurements')
 
 const generateMeasurements = (nodes, type) => {
     let measurements = []
-    if (typeof(nodes) === 'string') {
-        measurements.push(measurement[type](nodes))
-    }
-    if (nodes.length === 1 && typeof(nodes) === 'object') {
-        measurements.push(measurement[type](nodes[0]))
-    }
-    if (nodes.length >= 2 && typeof(nodes) === 'object') {
-        nodes.forEach((e, i) => {
-            measurements.push(measurement[type](nodes[i]))
-        })
+    if (!nodes) {
+        // Do nothing
+    } else {
+        if (typeof (nodes) === 'string') {
+            measurements.push(measurement[type](nodes))
+        }
+        if (nodes.length === 1 && typeof (nodes) === 'object') {
+            measurements.push(measurement[type](nodes[0]))
+        }
+        if (nodes.length >= 2 && typeof (nodes) === 'object') {
+            nodes.forEach((e, i) => {
+                measurements.push(measurement[type](nodes[i]))
+            })
+        }
     }
     return measurements
 }

@@ -4,7 +4,44 @@ const insertRows = (params) => {
     let rowArray = []
     params.forEach((e) => {
         if (e.repeating) {
-            //Do repeating stuff
+            const injectHostname = (panels, node) => {
+                let panelArray = []
+                panels.forEach((e) => {
+                    panelArray.push({
+                        ...e,
+                        "nodes": node
+                    })
+                })
+                return panelArray
+            }
+            if (e.nodes) {
+                if (e.nodes.length === 1 && typeof(e.nodes) === 'object') {
+                    const newConfig = {
+                        ...e.config,
+                        "title": e.nodes[0],
+                        "panels": [{
+                            "nodes": e.nodes[0]
+                        }]
+                    }
+                    rowArray.push(createRow(newConfig, injectHostname(e.panels, e.nodes[0])))
+                }
+                if (typeof(e.nodes) === 'string') {
+                    const newConfig = {
+                        ...e.config,
+                        "title": e.nodes
+                    }
+                    rowArray.push(createRow(newConfig, injectHostname(e.panels, e.nodes)))
+                }
+                if (e.nodes.length > 1 && typeof(e.nodes) === 'object') {
+                    e.nodes.forEach((element) => {
+                        const newConfig = {
+                            ...e.config,
+                            "title": element
+                        }
+                        rowArray.push(createRow(newConfig, injectHostname(e.panels, element)))
+                    })
+                }
+            }
         }
         if (!e.repeating) {
             rowArray.push(createRow(e.config, e.panels))
@@ -22,42 +59,6 @@ module.exports = (clusterName, masters, workers) => {
             "tags": ["kubernetes", "nais"],
             "timezone": "browser",
             "rows":
-                // createRow('Header header', 120,
-                //     [{
-                //         "panel": "text",
-                //         "text": clusterName
-                //     }]),
-                // createRow('master nodes:', 150,
-                //     [{
-                //         "panel": "singleStat",
-                //         "nodes": masters,
-                //         "measurement": "aggregate"
-                //     }]),
-                // createRow('master nodes:', 150,
-                //     [{
-                //         "panel": "singleStat",
-                //         "nodes": workers,
-                //         "measurement": "aggregate"
-                //     }]),
-                // createRow('Row row, row the boat', 400,
-                    // [{
-                    //     "panel": "graph",
-                    //     "nodes": nodes,
-                    //     "measurement": "cpuIdle",
-                    //     "title": "Cluster CPU Load"
-                    // },
-                    // {
-                    //     "panel": "graph",
-                    //     "nodes": nodes,
-                    //     "measurement": "diskVarUsage",
-                    //     "title": "Cluster Disk Usage (/var)"
-                    // },
-                    // {
-                    //     "panel": "graph",
-                    //     "nodes": nodes,
-                    //     "measurement": "memoryUsageWOBuffersCaches",
-                    //     "title": "Cluster Memory Usage"
-                    // }]),
                 insertRows(
                     [{
                         "repeating": false,
@@ -130,6 +131,62 @@ module.exports = (clusterName, masters, workers) => {
                             "title": "Cluster Memory Usage"
                         }]
                     },
+                    {
+                        "repeating": true,
+                        "nodes": masters,
+                        "config": {
+                            "collapse": false,
+                            "height": 400,
+                            // "title": "new nodes:",
+                            "showTitle": true
+                        },
+                        "panels": [{
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "cpuIdle",
+                            "title": "Cluster CPU Load"
+                        },
+                        {
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "diskVarUsage",
+                            "title": "Cluster Disk Usage (/var)"
+                        },
+                        {
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "memoryUsageWOBuffersCaches",
+                            "title": "Cluster Memory Usage"
+                        }]
+                    },
+                    {
+                        "repeating": true,
+                        "nodes": "e34apvl00375.devillo.no",
+                        "config": {
+                            "collapse": false,
+                            "height": 400,
+                            // "title": "new nodes:",
+                            "showTitle": true
+                        },
+                        "panels": [{
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "cpuIdle",
+                            "title": "Cluster CPU Load"
+                        },
+                        {
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "diskVarUsage",
+                            "title": "Cluster Disk Usage (/var)"
+                        },
+                        {
+                            "panel": "graph",
+                            "nodes": null,
+                            "measurement": "memoryUsageWOBuffersCaches",
+                            "title": "Cluster Memory Usage"
+                        }]
+                    }
                 ]),
             "schemaVersion": 6,
             "version": 0
