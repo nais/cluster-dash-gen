@@ -15,28 +15,25 @@ const insertRows = (params) => {
                 return panelArray
             }
             if (e.nodes) {
-                if (e.nodes.length === 1 && typeof(e.nodes) === 'object') {
+                if (e.nodes.length === 1 && typeof (e.nodes) === 'object') {
                     const newConfig = {
                         ...e.config,
-                        "title": e.nodes[0],
-                        "panels": [{
-                            "nodes": e.nodes[0]
-                        }]
+                        "title": (e.config.title || "") + " " + e.nodes[0],
                     }
                     rowArray.push(createRow(newConfig, injectHostname(e.panels, e.nodes[0])))
                 }
-                if (typeof(e.nodes) === 'string') {
+                if (typeof (e.nodes) === 'string') {
                     const newConfig = {
                         ...e.config,
-                        "title": e.nodes
+                        "title": (e.config.title || "") + " " + e.nodes
                     }
                     rowArray.push(createRow(newConfig, injectHostname(e.panels, e.nodes)))
                 }
-                if (e.nodes.length > 1 && typeof(e.nodes) === 'object') {
+                if (e.nodes.length > 1 && typeof (e.nodes) === 'object') {
                     e.nodes.forEach((element) => {
                         const newConfig = {
                             ...e.config,
-                            "title": element
+                            "title": (e.config.title || "") + " " + element
                         }
                         rowArray.push(createRow(newConfig, injectHostname(e.panels, element)))
                     })
@@ -115,7 +112,7 @@ module.exports = (clusterName, masters, workers) => {
                         "panels": [{
                             "panel": "graph",
                             "nodes": nodes,
-                            "measurement": "cpuIdle",
+                            "measurement": ["cpuIdle", "memoryUsageWOBuffersCaches", "memoryPercentCached"],
                             "title": "Cluster CPU Load"
                         },
                         {
@@ -137,57 +134,59 @@ module.exports = (clusterName, masters, workers) => {
                         "config": {
                             "collapse": false,
                             "height": 400,
-                            // "title": "new nodes:",
+                            "title": "Master node:",
                             "showTitle": true
                         },
                         "panels": [{
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "cpuIdle",
-                            "title": "Cluster CPU Load"
+                            "title": "Node CPU Load"
                         },
                         {
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "diskVarUsage",
-                            "title": "Cluster Disk Usage (/var)"
+                            "title": "Node Disk Usage (/var)"
                         },
                         {
                             "panel": "graph",
                             "nodes": null,
-                            "measurement": "memoryUsageWOBuffersCaches",
-                            "title": "Cluster Memory Usage"
+                            "stack": true,
+                            "measurement": ["memoryUsageWOBuffersCaches", "memoryPercentCached"],
+                            "title": "Node Memory Usage"
                         }]
                     },
                     {
                         "repeating": true,
-                        "nodes": "e34apvl00375.devillo.no",
+                        "nodes": workers,
                         "config": {
                             "collapse": false,
                             "height": 400,
-                            // "title": "new nodes:",
+                            "title": "Worker node:",
                             "showTitle": true
                         },
                         "panels": [{
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "cpuIdle",
-                            "title": "Cluster CPU Load"
+                            "title": "Node CPU Load"
                         },
                         {
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "diskVarUsage",
-                            "title": "Cluster Disk Usage (/var)"
+                            "title": "Node Disk Usage (/var)"
                         },
                         {
                             "panel": "graph",
                             "nodes": null,
-                            "measurement": "memoryUsageWOBuffersCaches",
-                            "title": "Cluster Memory Usage"
+                            "stack": true,
+                            "measurement": ["memoryUsageWOBuffersCaches", "memoryPercentCached"],
+                            "title": "Node Memory Usage"
                         }]
                     }
-                ]),
+                    ]),
             "schemaVersion": 6,
             "version": 0
         },

@@ -1,23 +1,42 @@
 const measurement = require('./measurements')
 
-const generateMeasurements = (nodes, type) => {
-    let measurements = []
+const insertMeasurements = (nodes, type) => {
+    let measurementArray = []
     if (!nodes) {
         // Do nothing
     } else {
-        if (typeof (nodes) === 'string') {
-            measurements.push(measurement[type](nodes))
+        if (typeof(type) === 'object') {
+            if (typeof (nodes) === 'string' && typeof(type) === 'object') {
+                type.forEach((e) => {
+                    measurementArray.push(measurement[e](nodes))        
+                }) 
+            }
+            if (nodes.length === 1 && typeof (nodes) === 'object' && typeof(type) === 'object') {
+                type.forEach((e) => {
+                    measurementArray.push(measurement[e](nodes[0]))
+                })
+            }
+            if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof(type) === 'object') {
+                type.forEach((e) => {
+                    nodes.forEach((element, i) => {
+                        measurementArray.push(measurement[e](nodes[i]))
+                    })
+                })
+            }
         }
-        if (nodes.length === 1 && typeof (nodes) === 'object') {
-            measurements.push(measurement[type](nodes[0]))
+        if (typeof (nodes) === 'string' && typeof(type) === 'string') {
+            measurementArray.push(measurement[type](nodes))
         }
-        if (nodes.length >= 2 && typeof (nodes) === 'object') {
+        if (nodes.length === 1 && typeof (nodes) === 'object' && typeof(type) === 'string') {
+            measurementArray.push(measurement[type](nodes[0]))
+        }
+        if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof(type) === 'string') {
             nodes.forEach((e, i) => {
-                measurements.push(measurement[type](nodes[i]))
+                measurementArray.push(measurement[type](nodes[i]))
             })
         }
     }
-    return measurements
+    return measurementArray
 }
 
 exports.text = (clusterName) => {
@@ -86,7 +105,7 @@ exports.singleStat = (node, measurement) => {
             "show": false
         },
         "tableColumn": "",
-        "targets": generateMeasurements(node, measurement),
+        "targets": insertMeasurements(node, measurement),
         "thresholds": "0,1",
         "title": node,
         "transparent": true,
@@ -110,7 +129,7 @@ exports.singleStat = (node, measurement) => {
     return panel
 }
 
-exports.graph = (nodes, measurement, title) => {
+exports.graph = (nodes, measurement, stack, title) => {
     const id = Math.random(1, 1000000)
     panel = {
         "bars": false,
@@ -144,9 +163,9 @@ exports.graph = (nodes, measurement, title) => {
         "renderer": "flot",
         "spaceLength": 10,
         "span": 4,
-        "stack": false,
+        "stack": stack,
         "steppedLine": false,
-        "targets": generateMeasurements(nodes, measurement),
+        "targets": insertMeasurements(nodes, measurement),
         "thresholds": [],
         "timeFrom": "1d",
         "timeShift": null,

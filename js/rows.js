@@ -17,7 +17,7 @@ const insertPanels = (panels) => {
             }
         }
         if (e.panel === 'graph') {
-            panelArray.push(panel.graph(e.nodes, e.measurement, e.title))
+            panelArray.push(panel.graph(e.nodes, e.measurement, e.stack, (e.title || false)))
         }
         if (e.panel === 'text') {
             panelArray.push(panel.text(e.text))

@@ -220,3 +220,54 @@ exports.memoryUsageWOBuffersCaches = (node) => {
     }
     return measurement
 }
+
+exports.memoryPercentCached = (node) => {
+    measurement = {
+        "alias": `node: ${node} cached memory`,
+        "dsType": "influxdb",
+        "groupBy": [
+            {
+                "params": [
+                    "$__interval"
+                ],
+                "type": "time"
+            },
+            {
+                "params": [
+                    "none"
+                ],
+                "type": "fill"
+            }
+        ],
+        "measurement": "memory.percent.cached",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "query": "SELECT mean(\"value\") FROM \"memory.percent.cached\" WHERE (\"hostname\" = 'a01apvl00048.adeo.no' ) AND $timeFilter GROUP BY time($__interval)fill(none)",
+        "rawQuery": false,
+        "refId": "B",
+        "resultFormat": "time_series",
+        "select": [
+            [
+                {
+                    "params": [
+                        "value"
+                    ],
+                    "type": "field"
+                },
+                {
+                    "params": [],
+                    "type": "mean"
+                }
+            ]
+        ],
+        "tags": [
+            {
+                "key": "hostname",
+                "operator": "=",
+                "value": node
+            }
+        ]
+    }
+
+    return measurement
+}
