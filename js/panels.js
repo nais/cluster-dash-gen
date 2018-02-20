@@ -5,18 +5,18 @@ const insertMeasurements = (nodes, type) => {
     if (!nodes) {
         // Do nothing
     } else {
-        if (typeof(type) === 'object') {
-            if (typeof (nodes) === 'string' && typeof(type) === 'object') {
+        if (typeof (type) === 'object') {
+            if (typeof (nodes) === 'string' && typeof (type) === 'object') {
                 type.forEach((e) => {
-                    measurementArray.push(measurement[e](nodes))        
-                }) 
+                    measurementArray.push(measurement[e](nodes))
+                })
             }
-            if (nodes.length === 1 && typeof (nodes) === 'object' && typeof(type) === 'object') {
+            if (nodes.length === 1 && typeof (nodes) === 'object' && typeof (type) === 'object') {
                 type.forEach((e) => {
                     measurementArray.push(measurement[e](nodes[0]))
                 })
             }
-            if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof(type) === 'object') {
+            if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'object') {
                 type.forEach((e) => {
                     nodes.forEach((element, i) => {
                         measurementArray.push(measurement[e](nodes[i]))
@@ -24,13 +24,13 @@ const insertMeasurements = (nodes, type) => {
                 })
             }
         }
-        if (typeof (nodes) === 'string' && typeof(type) === 'string') {
+        if (typeof (nodes) === 'string' && typeof (type) === 'string') {
             measurementArray.push(measurement[type](nodes))
         }
-        if (nodes.length === 1 && typeof (nodes) === 'object' && typeof(type) === 'string') {
+        if (nodes.length === 1 && typeof (nodes) === 'object' && typeof (type) === 'string') {
             measurementArray.push(measurement[type](nodes[0]))
         }
-        if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof(type) === 'string') {
+        if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'string') {
             nodes.forEach((e, i) => {
                 measurementArray.push(measurement[type](nodes[i]))
             })
@@ -204,5 +204,71 @@ exports.graph = (nodes, measurement, stack, title) => {
         ]
     }
     console.log(` - Inserting graph panel: ${title}, with: ${nodes}`)
+    return panel
+}
+exports.discrete = (node, measurement) => {
+    const id = Math.random(1, 1000000)
+    panel = {
+        "backgroundColor": "rgba(36, 204, 42, 0.68)",
+        "colorMaps": [
+            {
+                "color": "rgb(228, 59, 59)",
+                "text": "1"
+            },
+            {
+                "color": "rgb(46, 231, 60)",
+                "text": "0"
+            }
+        ],
+        "datasource": "influxdb",
+        "display": "timeline",
+        "expandFromQueryS": 100,
+        "extendLastValue": true,
+        "height": "",
+        "highlightOnMouseover": true,
+        "id": id,
+        "legendSortBy": "-ms",
+        "lineColor": "rgba(128, 128, 128, 1.0)",
+        "links": [],
+        "mappingTypes": [
+            {
+                "name": "Healthy",
+                "value": 1
+            },
+            {
+                "name": "Error",
+                "value": 0
+            }
+        ],
+        "metricNameColor": "#000000",
+        "rangeMaps": [
+            {
+                "from": "null",
+                "text": "N/A",
+                "to": "null"
+            }
+        ],
+        "rowHeight": 24,
+        "showLegend": false,
+        "span": 4,
+        "targets": insertMeasurements(node, measurement),
+        "textSize": 12,
+        "timeFrom": null,
+        "title": "",
+        "transparent": true,
+        "type": "natel-discrete-panel",
+        "valueMaps": [
+            {
+                "op": "=",
+                "text": "N/A",
+                "value": "null"
+            }
+        ],
+        "valueTextColor": "#000000",
+        "writeAllValues": false,
+        "writeLastValue": false,
+        "writeMetricNames": true
+    }
+    console.log(` - Inserting discrete panel for ${node}`)
     return panel
 }

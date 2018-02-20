@@ -77,7 +77,7 @@ module.exports = (clusterName, masters, workers) => {
                         "config": {
                             "collapse": false,
                             "height": 150,
-                            "title": "master nodes:",
+                            "title": "Master nodes:",
                             "showTitle": true
                         },
                         "panels": [{
@@ -92,7 +92,7 @@ module.exports = (clusterName, masters, workers) => {
                         "config": {
                             "collapse": false,
                             "height": 150,
-                            "title": "worker nodes:",
+                            "title": "Worker nodes:",
                             "showTitle": true
                         },
                         "panels": [{
@@ -112,7 +112,7 @@ module.exports = (clusterName, masters, workers) => {
                         "panels": [{
                             "panel": "graph",
                             "nodes": nodes,
-                            "measurement": ["cpuIdle", "memoryUsageWOBuffersCaches", "memoryPercentCached"],
+                            "measurement": ["cpuIdle"],
                             "title": "Cluster CPU Load"
                         },
                         {
@@ -138,6 +138,22 @@ module.exports = (clusterName, masters, workers) => {
                             "showTitle": true
                         },
                         "panels": [{
+                            "panel": "discrete",
+                            "nodes": null,
+                            "measurement": [
+                                "processDockerd",
+                                "processKubelet",
+                                "interfaceDocker0",
+                                "interfaceFlannel",
+                                "componentControllerManager",
+                                "componentScheduler",
+                                "componentEtcd0",
+                                "addonCoredns",
+                                "addonKubernetesDashboard",
+                                "addonTillerDeploy"
+                            ]
+                        },
+                        {
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "cpuIdle",
@@ -155,7 +171,9 @@ module.exports = (clusterName, masters, workers) => {
                             "stack": true,
                             "measurement": ["memoryUsageWOBuffersCaches", "memoryPercentCached"],
                             "title": "Node Memory Usage"
-                        }]
+                        },
+
+                        ]
                     },
                     {
                         "repeating": true,

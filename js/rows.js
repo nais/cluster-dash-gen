@@ -22,6 +22,9 @@ const insertPanels = (panels) => {
         if (e.panel === 'text') {
             panelArray.push(panel.text(e.text))
         }
+        if (e.panel === 'discrete') {
+            panelArray.push(panel.discrete(e.nodes, e.measurement))
+        }
     })
     return panelArray
 }
@@ -31,9 +34,6 @@ module.exports = (config, panels) => {
         "collapse": config.collapse || false,
         "height": config.height || 140,
         "panels": insertPanels(panels),
-        "repeat": null,
-        "repeatIteration": null,
-        "repeatRowId": null,
         "showTitle": config.showTitle || false,
         "title": config.title || "Row, Row, Row, Your Boat",
         "titleSize": config.titleSize || "h3"
