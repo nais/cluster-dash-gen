@@ -1,3 +1,57 @@
+const createMeasurement = (node, alias, measurement, key, value) => {
+    return  {
+        "alias": alias,
+        "dsType": "influxdb",
+        "groupBy": [
+            {
+                "params": [
+                    "$__interval"
+                ],
+                "type": "time"
+            },
+            {
+                "params": [
+                    "previous"
+                ],
+                "type": "fill"
+            }
+        ],
+        "hide": false,
+        "measurement": measurement,
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+            [
+                {
+                    "params": [
+                        "value"
+                    ],
+                    "type": "field"
+                },
+                {
+                    "params": [],
+                    "type": "last"
+                }
+            ]
+        ],
+        "tags": [
+            {
+                "key": key,
+                "operator": "=",
+                "value": value
+            },
+            {
+                "condition": "AND",
+                "key": "hostname",
+                "operator": "=",
+                "value": node
+            }
+        ]
+    }
+}
+
 exports.aggregate = (node) => {
     measurement = {
         "dsType": "influxdb",
@@ -272,606 +326,49 @@ exports.memoryPercentCached = (node) => {
 }
 
 exports.processDockerd = (node) => {
-    measurement = {
-        "alias": "dockerd",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.process",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "process",
-                "operator": "=",
-                "value": "dockerd"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'dockerd', 'nais.process', 'process', 'dockerd')
 }
 
 exports.processKubelet = (node) => {
-    measurement = {
-        "alias": "kubelet",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.process",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "process",
-                "operator": "=",
-                "value": "kubelet"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'kubelet', 'nais.process', 'process', 'kubelet')
+}
+
+exports.processFlanneld = (node) => {
+    return createMeasurement(node, 'flanneld', 'nais.process', 'process', 'flanneld')
+}
+
+exports.processKubeProxy = (node) => {
+    return createMeasurement(node, 'kube-proxy', 'nais.process', 'process', 'kube-proxy')
 }
 
 exports.interfaceDocker0 = (node) => {
-    measurement = {
-        "alias": "docker0",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.interface",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "interface",
-                "operator": "=",
-                "value": "docker0"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
-}
-
-exports.interfaceDocker0 = (node) => {
-    measurement = {
-        "alias": "docker0",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.interface",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "interface",
-                "operator": "=",
-                "value": "docker0"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'docker0', 'nais.interface', 'interface', 'docker0')
 }
 
 exports.interfaceFlannel = (node) => {
-    measurement = {
-        "alias": "flannel.1",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.interface",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "interface",
-                "operator": "=",
-                "value": "flannel"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'flannel.1', 'nais.interface', 'interface', 'flannel')
 }
 
 exports.componentControllerManager = (node) => {
-    measurement = {
-        "alias": "controller-manager",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.component",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "component",
-                "operator": "=",
-                "value": "controller-manager"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'controller-manager', 'nais.component', 'component', 'controller-manager')
 }
 
 exports.componentScheduler = (node) => {
-    measurement = {
-        "alias": "scheduler",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.component",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "component",
-                "operator": "=",
-                "value": "scheduler"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'scheduler', 'nais.component', 'component', 'scheduler')
 }
 
 exports.componentEtcd0 = (node) => {
-    measurement = {
-        "alias": "etcd-o",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.component",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "component",
-                "operator": "=",
-                "value": "etcd-0"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'etcd-0', 'nais.component', 'component', 'etcd-0')
 }
 
 exports.addonCoredns = (node) => {
-    measurement = {
-        "alias": "coredns",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.addon",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "addon",
-                "operator": "=",
-                "value": "coredns"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'coredns', 'nais.addon', 'addon', 'coredns')
 }
 
 exports.addonKubernetesDashboard = (node) => {
-    measurement = {
-        "alias": "kubernetes-dashboard",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.addon",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "addon",
-                "operator": "=",
-                "value": "kubernetes-dashboard"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'kubernetes-dashboard', 'nais.addon', 'addon', 'kubernetes-dashboard')
 }
 
 exports.addonTillerDeploy = (node) => {
-    measurement = {
-        "alias": "tiller-deploy",
-        "dsType": "influxdb",
-        "groupBy": [
-            {
-                "params": [
-                    "$__interval"
-                ],
-                "type": "time"
-            },
-            {
-                "params": [
-                    "previous"
-                ],
-                "type": "fill"
-            }
-        ],
-        "hide": false,
-        "measurement": "nais.addon",
-        "orderByTime": "ASC",
-        "policy": "default",
-        "refId": "A",
-        "resultFormat": "time_series",
-        "select": [
-            [
-                {
-                    "params": [
-                        "value"
-                    ],
-                    "type": "field"
-                },
-                {
-                    "params": [],
-                    "type": "last"
-                }
-            ]
-        ],
-        "tags": [
-            {
-                "key": "addon",
-                "operator": "=",
-                "value": "tiller-deploy"
-            },
-            {
-                "condition": "AND",
-                "key": "hostname",
-                "operator": "=",
-                "value": node
-            }
-        ]
-    }
-    return measurement
+    return createMeasurement(node, 'tiller-deploy', 'nais.addon', 'addon', 'tiller-deploy')
 }

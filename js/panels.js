@@ -269,6 +269,6 @@ exports.discrete = (node, measurement) => {
         "writeLastValue": false,
         "writeMetricNames": true
     }
-    console.log(` - Inserting discrete panel for ${node}`)
+    console.log(` - Inserting discrete panel for ${node} with ${measurement}`)
     return panel
 }

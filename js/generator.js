@@ -185,6 +185,18 @@ module.exports = (clusterName, masters, workers) => {
                             "showTitle": true
                         },
                         "panels": [{
+                            "panel": "discrete",
+                            "nodes": null,
+                            "measurement": [
+                                "processDockerd",
+                                "processKubelet",
+                                "processFlanneld",
+                                "processKubeProxy",
+                                "interfaceDocker0",
+                                "interfaceFlannel"
+                            ]
+                        },
+                        {
                             "panel": "graph",
                             "nodes": null,
                             "measurement": "cpuIdle",
