@@ -29,6 +29,17 @@
                 "nodes": null,
                 "config": {
                     "collapse": false,
+                    "height": 100,
+                    "titleSize": "h6",
+                    "showTitle": false
+                },
+                "panels": []
+            },
+            {
+                "repeating": false,
+                "nodes": null,
+                "config": {
+                    "collapse": false,
                     "height": 150,
                     "title": "Master nodes:",
                     "showTitle": true

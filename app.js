@@ -10,24 +10,29 @@ function list(val) {
 program
     .usage('[options] <args>')
     .option('-c, --cluster <cluster name>', 'Cluster name')
-    .option('-m, --masters <comma separated host list>', 'All master nodes in the cluster', list)
-    .option('-w, --workers <comma separated host list>', 'All worker nodes in the cluster', list)
+    .option('-m, --masters <comma separated host list>', 'all master nodes in the cluster', list)
+    .option('-w, --workers <comma separated host list>', 'all worker nodes in the cluster', list)
+    .option('-t, --template <file.json>', 'JSON template for the dashboard')
     .parse(process.argv)
 
 console.log(' - Cluster name: %s', program.cluster)
 console.log(' - Master nodes: %j', program.masters)
 console.log(' - Worker nodes: %j', program.workers)
+console.log(' - Template: %s', program.template)
 
-const config = templater(
-    require('./cluster-dashboard.json'),
-    {
-        title: program.cluster,
-        masters: program.masters,
-        workers: program.workers,
-        nodes: program.masters.concat(program.workers)
-    }
-)
-
-const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
-
-util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
+if (!program.cluster || !program.masters || !program.workers || !program.template) {
+    console.log('Argument(s) missing, use --help for more info')
+    process.exit(1)
+} else {
+    const config = templater(
+        require(`./${program.template}`),
+        {
+            title: program.cluster,
+            masters: program.masters,
+            workers: program.workers,
+            nodes: program.masters.concat(program.workers)
+        }
+    )
+    const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
+    util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
+}
