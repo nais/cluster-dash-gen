@@ -1,8 +1,7 @@
 const generateDashboard = require('./js/generator')
 const program = require('commander')
 const util = require('./js/util')
-
-const args = process.argv.slice(2)
+const templater = require('json-templater/object')
 
 function list(val) {
     return val.split(',');
@@ -19,6 +18,16 @@ console.log(' - Cluster name: %s', program.cluster)
 console.log(' - Master nodes: %j', program.masters)
 console.log(' - Worker nodes: %j', program.workers)
 
-const dashboard = generateDashboard(program.cluster, program.masters, program.workers)
+const config = templater(
+    require('./cluster-dashboard.json'),
+    {
+        title: program.cluster,
+        masters: program.masters,
+        workers: program.workers,
+        nodes: program.masters.concat(program.workers)
+    }
+)
+
+const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
 
 util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
