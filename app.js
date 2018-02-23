@@ -2,7 +2,6 @@ const generateDashboard = require('./js/generator')
 const program = require('commander')
 const templater = require('json-templater/object')
 const util = require('./js/util')
-console.log('what')
 
 function list(val) {
     return val.split(',')
