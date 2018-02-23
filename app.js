@@ -20,7 +20,6 @@ console.log(' - Cluster name: %s', program.cluster)
 console.log(' - Master nodes: %j', program.masters)
 console.log(' - Worker nodes: %j', program.workers)
 console.log(' - Template: %s', program.template)
-console.log(program.workers)
 
 if (!program.cluster || !program.masters || !program.workers || !program.template) {
     console.log('Argument(s) missing, use --help for more info')
