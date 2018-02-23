@@ -1,7 +1,7 @@
 const generateDashboard = require('./js/generator')
 const program = require('commander')
 const templater = require('json-templater/object')
-const util = require('./js/util')
+// const util = require('./js/util')
 
 
 function list(val) {
