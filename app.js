@@ -21,19 +21,19 @@ console.log(' - Master nodes: %j', program.masters)
 console.log(' - Worker nodes: %j', program.workers)
 console.log(' - Template: %s', program.template)
 
-if (!program.cluster || !program.masters || !program.workers || !program.template) {
-    console.log('Argument(s) missing, use --help for more info')
-    process.exit(0)
-} else {
-    const config = templater(
-        require(`${program.template}`),
-        {
-            title: program.cluster,
-            masters: program.masters,
-            workers: program.workers,
-            nodes: program.masters.concat(program.workers)
-        }
-    )
-    const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
-    util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
-}
+// if (!program.cluster || !program.masters || !program.workers || !program.template) {
+//     console.log('Argument(s) missing, use --help for more info')
+//     process.exit(0)
+// } else {
+//     const config = templater(
+//         require(`${program.template}`),
+//         {
+//             title: program.cluster,
+//             masters: program.masters,
+//             workers: program.workers,
+//             nodes: program.masters.concat(program.workers)
+//         }
+//     )
+//     const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
+//     util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
+// }
