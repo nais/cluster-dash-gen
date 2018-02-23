@@ -36,4 +36,4 @@ if (!program.cluster || !program.masters || !program.workers || !program.templat
     )
     const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
     util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
-// }
+}
