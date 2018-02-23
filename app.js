@@ -1,10 +1,11 @@
 const generateDashboard = require('./js/generator')
 const program = require('commander')
-const util = require('./js/util')
 const templater = require('json-templater/object')
+const util = require('./js/util')
+
 
 function list(val) {
-    return val.split(',');
+    return val.split(',')
 }
 
 program
@@ -19,13 +20,14 @@ console.log(' - Cluster name: %s', program.cluster)
 console.log(' - Master nodes: %j', program.masters)
 console.log(' - Worker nodes: %j', program.workers)
 console.log(' - Template: %s', program.template)
+console.log(program.workers)
 
 if (!program.cluster || !program.masters || !program.workers || !program.template) {
     console.log('Argument(s) missing, use --help for more info')
-    process.exit(1)
+    process.exit(0)
 } else {
     const config = templater(
-        require(`./${program.template}`),
+        require(`${program.template}`),
         {
             title: program.cluster,
             masters: program.masters,

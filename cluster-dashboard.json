@@ -1,7 +1,7 @@
 {
     "dashboard": {
         "id": null,
-        "title": "`NAIS cluster {{title}} dashboard",
+        "title": "NAIS {{title}} cluster dashboard",
         "tags": [
             "kubernetes",
             "nais"
@@ -23,17 +23,6 @@
                         "text": "{{title}}"
                     }
                 ]
-            },
-            {
-                "repeating": false,
-                "nodes": null,
-                "config": {
-                    "collapse": false,
-                    "height": 100,
-                    "titleSize": "h6",
-                    "showTitle": false
-                },
-                "panels": []
             },
             {
                 "repeating": false,
@@ -104,7 +93,7 @@
                 "repeating": true,
                 "nodes": "{{masters}}",
                 "config": {
-                    "collapse": false,
+                    "collapse": true,
                     "height": 400,
                     "title": "Master node:",
                     "showTitle": true
@@ -154,7 +143,7 @@
                 "repeating": true,
                 "nodes": "{{workers}}",
                 "config": {
-                    "collapse": false,
+                    "collapse": true,
                     "height": 400,
                     "title": "Worker node:",
                     "showTitle": true
