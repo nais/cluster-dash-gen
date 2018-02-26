@@ -42,7 +42,7 @@ const insertMeasurements = (nodes, type) => {
 exports.text = (params) => {
     const id = Math.random(1, 1000000)
     panel = {
-        "content": `<p>\n<img src=\"https://confluence.adeo.no/download/thumbnails/245392474/nais-hvit.png?version=1&modificationDate=1510648603680&api=v2\" height=\"150\" align=\"right\" /img>\n<font size=\"40\">${params.text}</font>\n</p>`,
+        "content": `<p>\n<img src=\"https://confluence.adeo.no/download/thumbnails/245392474/nais-hvit.png?version=1&modificationDate=1510648603680&api=v2\" height=\"150\" align=\"left\" /img>\n<font size=\"40\">${params.text}</font>\n</p>`,
         "height": "100",
         "id": params.id,
         "links": [],
