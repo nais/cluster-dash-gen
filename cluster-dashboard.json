@@ -1,7 +1,7 @@
 {
     "dashboard": {
         "id": null,
-        "title": "NAIS {{title}} cluster dashboard",
+        "title": "NAIS {{cluster}} cluster dashboard",
         "tags": [
             "kubernetes",
             "nais"
@@ -20,7 +20,22 @@
                 "panels": [
                     {
                         "panel": "text",
-                        "text": "{{title}}"
+                        "text": "{{cluster}}",
+                        "width": 6
+                    },
+                    {
+                        "panel": "singleStat",
+                        "title": "Total memory",
+                        "datasource": "{{cluster}}",
+                        "postfix": "GB",
+                        "measurement": "totalClusterMemory"
+                    },
+                    {
+                        "panel": "singleStat",
+                        "title": "Total cores",
+                        "datasource": "{{cluster}}",
+                        "postfix": "cores",
+                        "measurement": "totalClusterCores"
                     }
                 ]
             },
@@ -36,6 +51,7 @@
                 "panels": [
                     {
                         "panel": "singleStat",
+                        "subtype": "healthCheck",
                         "nodes": "{{masters}}",
                         "measurement": "aggregate"
                     }
@@ -53,6 +69,7 @@
                 "panels": [
                     {
                         "panel": "singleStat",
+                        "subtype": "healthCheck",
                         "nodes": "{{workers}}",
                         "measurement": "aggregate"
                     }
@@ -102,6 +119,7 @@
                     {
                         "panel": "discrete",
                         "nodes": null,
+                        "title": "Master node component status",
                         "measurement": [
                             "processDockerd",
                             "processKubelet",
@@ -152,6 +170,7 @@
                     {
                         "panel": "discrete",
                         "nodes": null,
+                        "title": "Worker node component status",
                         "measurement": [
                             "processDockerd",
                             "processKubelet",

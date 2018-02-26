@@ -27,7 +27,7 @@ if (!program.cluster || !program.masters || !program.workers || !program.templat
     const config = templater(
         require(`${program.template}`),
         {
-            title: program.cluster,
+            cluster: program.cluster,
             masters: program.masters,
             workers: program.workers,
             nodes: program.masters.concat(program.workers)

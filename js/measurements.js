@@ -1,5 +1,5 @@
 const createMeasurement = (node, alias, measurement, key, value) => {
-    return  {
+    return {
         "alias": alias,
         "dsType": "influxdb",
         "groupBy": [
@@ -371,4 +371,18 @@ exports.addonKubernetesDashboard = (node) => {
 
 exports.addonTillerDeploy = (node) => {
     return createMeasurement(node, 'tiller-deploy', 'nais.addon', 'addon', 'tiller-deploy')
+}
+
+exports.totalClusterMemory = (clusterName) => {
+    measurement = {
+        "expr": "sum(kube_node_status_allocatable_memory_bytes) / (1024^3)",
+    }
+    return measurement
+}
+
+exports.totalClusterCores = (clusterName) => {
+    measurement = {
+        "expr": "sum(kube_node_status_allocatable_cpu_cores)",
+    }
+    return measurement
 }
