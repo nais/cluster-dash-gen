@@ -46,8 +46,9 @@ exports.text = (params) => {
         "height": "100",
         "id": params.id,
         "links": [],
+        "gridPos": params.gridPos,
         "mode": "html",
-        "span": params.width || 4,
+        // "span": params.width || 4,
         "title": "",
         "transparent": true,
         "type": "text"
@@ -58,7 +59,7 @@ exports.text = (params) => {
 
 exports.singleStat = (params) => {
     // return default panel if nothing else is specified
-    if (params.subtype === 'normal' || !params.subtype) { 
+    if (params.subtype === 'normal' || !params.subtype) {
         panel = {
             "cacheTimeout": null,
             "colorValue": false,
@@ -67,8 +68,9 @@ exports.singleStat = (params) => {
             "id": Math.random(1, 1000000),
             "interval": null,
             "links": [],
+            "gridPos": params.gridPos,
             "nullText": null,
-            "span": params.width || 3,
+            // "span": params.width || 3,
             "targets": insertMeasurements(params.nodes, params.measurement),
             "title": params.title || params.nodes || "",
             "transparent": true,
@@ -82,7 +84,47 @@ exports.singleStat = (params) => {
         console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
         return panel
     }
+    if (params.subtype === 'gauge' || !params.subtype) {
+        panel = {
+            "cacheTimeout": null,
+            "colorValue": false,
+            "datasource": params.datasource || "influxdb",
+            "format": params.format || "none",
+            "id": Math.random(1, 1000000),
+            "interval": null,
+            "links": [],
+            "gridPos": params.gridPos,
+            "nullText": null,
+            // "span": params.width || 3,
+            "targets": insertMeasurements(params.nodes, params.measurement),
+            "title": params.title || params.nodes || "",
+            "transparent": true,
+            "type": "singlestat",
+            "valueFontSize": "80%",
+            "postfix": ` ${params.postfix || ""}`,
+            "postfixFontSize": "80%",
+            "prefix": ` ${params.prefix || ""}`,
+            "prefixFontSize": "80%",
+            "gauge": {
+                "show": true,
+                "minValue": 0,
+                "maxValue": 100,
+                "thresholdMarkers": true,
+                "thresholdLabels": false
+            },
+            "colors": [
+                "#299c46",
+                "rgba(237, 129, 40, 0.89)",
+                "#d44a3a"
+              ],
+            "thresholds": "70,90",
+
+        }
+        console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
+        return panel
+    }
     if (params.subtype === 'healthCheck') {
+        // console.log('PARAMS', params)
         panel = {
             "cacheTimeout": null,
             "colorBackground": true,
@@ -94,6 +136,7 @@ exports.singleStat = (params) => {
             ],
             "datasource": params.datasource || "influxdb",
             "format": params.format || "none",
+            "gridPos": params.gridPos,
             "id": Math.random(1, 1000000),
             "interval": null,
             "links": [],
@@ -122,7 +165,7 @@ exports.singleStat = (params) => {
                     "to": "null"
                 }
             ],
-            "span": params.width || 3,
+            // "span": params.width || 3,
             "sparkline": {
                 "fillColor": "rgba(31, 118, 189, 0.18)",
                 "full": false,
@@ -151,6 +194,8 @@ exports.singleStat = (params) => {
             "valueName": "current"
         }
         console.log(` - Inserting ${params.measurement} ${params.subtype} singlestat panel with: ${params.nodes}`)
+        // console.log('gridPos', panel.gridPos, params.gridPos)
+        
         return panel
     }
 
@@ -164,6 +209,7 @@ exports.graph = (params) => {
         "datasource": "influxdb",
         "fill": 1,
         "hideTimeOverride": true,
+        "gridPos": params.gridPos,
         "id": params.id,
         "interval": "5m",
         "legend": {
@@ -188,7 +234,7 @@ exports.graph = (params) => {
         "points": false,
         "renderer": "flot",
         "spaceLength": 10,
-        "span": params.width || 4,
+        // "span": params.width || 4,
         "stack": params.stack || false,
         "steppedLine": false,
         "targets": insertMeasurements(params.nodes, params.measurement),
@@ -249,6 +295,7 @@ exports.discrete = (params) => {
         "display": "timeline",
         "expandFromQueryS": 100,
         "extendLastValue": true,
+        "gridPos": params.gridPos,
         "height": "",
         "highlightOnMouseover": true,
         "id": params.id,
@@ -275,7 +322,7 @@ exports.discrete = (params) => {
         ],
         "rowHeight": 24,
         "showLegend": false,
-        "span": params.width || 4,
+        // "span": params.width || 4,
         "targets": insertMeasurements(params.nodes, params.measurement),
         "textSize": 12,
         "timeFrom": null,

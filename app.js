@@ -22,7 +22,7 @@ console.log(' - Template: %s', program.template)
 
 if (!program.cluster || !program.masters || !program.workers || !program.template) {
     console.log('Argument(s) missing, use --help for more info')
-    process.exit(0)
+    process.exit(1)
 } else {
     const config = templater(
         require(`${program.template}`),

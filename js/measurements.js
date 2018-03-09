@@ -373,16 +373,117 @@ exports.addonTillerDeploy = (node) => {
     return createMeasurement(node, 'tiller-deploy', 'nais.addon', 'addon', 'tiller-deploy')
 }
 
+// MEMORY
+
 exports.totalClusterMemory = (clusterName) => {
     measurement = {
-        "expr": "sum(kube_node_status_allocatable_memory_bytes) / (1024^3)",
+        "expr": "sum(kube_node_status_allocatable_memory_bytes) / (1024^3)"
     }
     return measurement
 }
 
+exports.totalClusterMemoryUsage = (clusterName) => {
+    measurement = {
+        "expr": `sum (container_memory_working_set_bytes{id="/"}) / (1024^3)`
+    }
+    return measurement
+}
+
+exports.totalClusterMemoryUsagePercent = (clusterName) => {
+    measurement = {
+        "expr": `sum (container_memory_working_set_bytes{id=~"/"}) / sum(machine_memory_bytes) * 100`
+    }
+    return measurement
+}
+
+exports.totalClusterMemoryAllocatedPercent = (clusterName) => {
+    measurement = {
+        "expr": `sum(kube_pod_container_resource_requests_memory_bytes) / sum(kube_node_status_allocatable_memory_bytes) * 100`
+    }
+    return measurement
+}
+
+// CORES
+
 exports.totalClusterCores = (clusterName) => {
     measurement = {
-        "expr": "sum(kube_node_status_allocatable_cpu_cores)",
+        "expr": `sum(kube_node_status_allocatable_cpu_cores)`
+    }
+    return measurement
+}
+
+exports.totalClusterCoresUsage = (clusterName) => {
+    measurement = {
+        "expr": `sum (rate (container_cpu_usage_seconds_total{id="/"}[2m]))`
+    }
+    return measurement
+}
+
+exports.totalClusterCoresUsagePercent = (clusterName) => {
+    measurement = {
+        "expr": `sum(rate(container_cpu_usage_seconds_total{id=~"/"}[2m])) / sum(machine_cpu_cores) * 100`
+    }
+    return measurement
+}
+
+exports.totalClusterCoresAllocatedPercent = (clusterName) => {
+    measurement = {
+        "expr": `sum(kube_pod_container_resource_requests_cpu_cores) / sum(kube_node_status_allocatable_cpu_cores) * 100`
+    }
+    return measurement
+}
+
+// STORAGE
+
+exports.totalClusterStorage = (clusterName) => {
+    measurement = {
+        "expr": `sum(container_fs_limit_bytes{device=~"^/dev/\\\\\S*"}) / (1024^3)`
+    }
+    return measurement
+}
+
+exports.totalClusterStorageUsage = (clusterName) => {
+    measurement = {
+        "expr": `sum(container_fs_usage_bytes{device=~"^/dev/\\\\\S*"}) / (1024^3)`
+    }
+    return measurement
+}
+
+exports.totalClusterStorageUsagePercent = (clusterName) => {
+    measurement = {
+        "expr": `sum(container_fs_usage_bytes{device=~"^/dev/\\\\\S*"}) / sum(container_fs_limit_bytes{device=~"^/dev/\\\\\S*"}) * 100`
+    }
+    return measurement
+}
+
+// PODS
+
+exports.kubePodContainerInfoCount = (clusterName) => {
+    measurement = {
+        "expr": `count(kube_pod_container_info)`
+    }
+    return measurement
+}
+
+exports.kubePodStatusPhasePending = (clusterName) => {
+    measurement = {
+        "expr": `sum(kube_pod_status_phase{phase="Pending"})`
+    }
+    return measurement
+}
+
+// DEPLOYMENTS
+
+exports.kubeDeploymentsStatusReplicasAvailable = (clusterName) => {
+    measurement = {
+        "expr": `sum(kube_deployment_status_replicas_available)`
+    }
+    return measurement
+}
+
+exports.kubeDeploymentsStatusReplicasUnavailable = (clusterName) => {
+    measurement = {
+        "expr": `sum(kube_deployment_status_replicas_unavailable)`
     }
     return measurement
 }
