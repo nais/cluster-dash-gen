@@ -92,15 +92,14 @@ module.exports = (clusterName, masters, workers, config) => {
             "panels": insertElements(config.dashboard),
             "refresh": "30s",
             "schemaVersion": 6,
-            "version": 0
+            "version": 0,
+            "time": {
+                "from": "now-15m",
+                "to": "now"
+            },
         },
         "overwrite": true,
         "message": "templated cluster dashboard",
-        "time": {
-            "from": "now-15m",
-            "to": "now"
-        },
     }
-    // console.log("SELVE DAHSboRD", dashboard.dashboard.panels)
     return dashboard
 }

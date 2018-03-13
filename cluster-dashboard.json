@@ -68,6 +68,84 @@
             },
             {
                 "panel": "singleStat",
+                "title": "Cores usage",
+                "datasource": "{{cluster}}",
+                "postfix": "cores",
+                "measurement": "totalClusterCoresUsage",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 0,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
+                "title": "Total CPU",
+                "datasource": "{{cluster}}",
+                "postfix": "cores",
+                "measurement": "totalClusterCores",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 4,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
+                "title": "Memory usage",
+                "datasource": "{{cluster}}",
+                "postfix": "GB",
+                "measurement": "totalClusterMemoryUsage",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 8,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
+                "title": "Total memory",
+                "datasource": "{{cluster}}",
+                "postfix": "GB",
+                "measurement": "totalClusterMemory",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 12,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
+                "title": "Storage usage",
+                "datasource": "{{cluster}}",
+                "postfix": "GB",
+                "measurement": "totalClusterStorageUsage",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 16,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
+                "title": "Total storage",
+                "datasource": "{{cluster}}",
+                "postfix": "?",
+                "measurement": "totalClusterStorage",
+                "gridPos": {
+                    "h": 3,
+                    "w": 4,
+                    "x": 20,
+                    "y": 3
+                }
+            },
+            {
+                "panel": "singleStat",
                 "subtype": "gauge",
                 "title": "CPU usage",
                 "postfix": "%",
@@ -77,7 +155,7 @@
                     "h": 6,
                     "w": 8,
                     "x": 0,
-                    "y": 3
+                    "y": 6
                 }
             },
             {
@@ -91,7 +169,7 @@
                     "h": 6,
                     "w": 8,
                     "x": 8,
-                    "y": 3
+                    "y": 6
                 }
             },
             {
@@ -105,87 +183,10 @@
                     "h": 6,
                     "w": 8,
                     "x": 16,
-                    "y": 3
+                    "y": 6
                 }
             },
-            {
-                "panel": "singleStat",
-                "title": "Cores usage",
-                "datasource": "{{cluster}}",
-                "postfix": "cores",
-                "measurement": "totalClusterCoresUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 0,
-                    "y": 9
-                }
-            },
-            {
-                "panel": "singleStat",
-                "title": "Total CPU",
-                "datasource": "{{cluster}}",
-                "postfix": "cores",
-                "measurement": "totalClusterCores",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 4,
-                    "y": 9
-                }
-            },
-            {
-                "panel": "singleStat",
-                "title": "Memory usage",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterMemoryUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 8,
-                    "y": 9
-                }
-            },
-            {
-                "panel": "singleStat",
-                "title": "Total memory",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterMemory",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 12,
-                    "y": 9
-                }
-            },
-            {
-                "panel": "singleStat",
-                "title": "Storage usage",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterStorageUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 16,
-                    "y": 9
-                }
-            },
-            {
-                "panel": "singleStat",
-                "title": "Total storage",
-                "datasource": "{{cluster}}",
-                "postfix": "?",
-                "measurement": "totalClusterStorage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 20,
-                    "y": 9
-                }
-            },
+       
             {
                 "panel": "singleStat",
                 "subtype": "gauge",
@@ -216,8 +217,8 @@
             },
             {
                 "panel": "statusPanel",
-                "nodes": "{{workers}}",
-                "title": "Worker status",
+                "nodes": "{{masters}}",
+                "title": "Master status",
                 "measurement": "aggregateStatusPanel",
                 "gridPos": {
                     "h": 3,
@@ -228,8 +229,8 @@
             },
             {
                 "panel": "statusPanel",
-                "nodes": "{{masters}}",
-                "title": "Master status",
+                "nodes": "{{workers}}",
+                "title": "Worker status",
                 "measurement": "aggregateStatusPanel",
                 "gridPos": {
                     "h": 3,
