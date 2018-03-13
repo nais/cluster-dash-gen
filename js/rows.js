@@ -49,19 +49,16 @@ const insertPanels = (panels) => {
             panelArray.push(panel.discrete(e))
         }
     })
-    console.log(panelArray)
     return panelArray
 }
 
 module.exports = (params) => {
     row = {
-        "collapsed": params.config.collapsed || false,
         "gridPos": params.config.gridPos || null,
         "id": Math.random(1, 1000000),
         "panels": [],
         "title": params.config.title || "Row title",
         "type": "row",
     }
-    console.log(row)
     return row
 }

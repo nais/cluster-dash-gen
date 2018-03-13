@@ -40,15 +40,13 @@ const insertMeasurements = (nodes, type) => {
 }
 
 exports.text = (params) => {
-    const id = Math.random(1, 1000000)
     panel = {
         "content": `<p>\n<img src=\"https://confluence.adeo.no/download/thumbnails/245392474/nais-hvit.png?version=1&modificationDate=1510648603680&api=v2\" height=\"150\" align=\"left\" /img>\n<font size=\"40\">${params.text}</font>\n</p>`,
         "height": "100",
-        "id": params.id,
+        "id": Math.random(1, 1000000),
         "links": [],
         "gridPos": params.gridPos,
         "mode": "html",
-        // "span": params.width || 4,
         "title": "",
         "transparent": true,
         "type": "text"
@@ -278,6 +276,7 @@ exports.graph = (params) => {
     console.log(` - Inserting graph panel: ${params.title || "With no title"}, with: ${params.nodes}`)
     return panel
 }
+
 exports.discrete = (params) => {
     panel = {
         "backgroundColor": "rgba(36, 204, 42, 0.68)",
@@ -342,5 +341,36 @@ exports.discrete = (params) => {
         "writeMetricNames": true
     }
     console.log(` - Inserting discrete panel for ${params.nodes} with ${params.measurement}`)
+    return panel
+}
+
+exports.statusPanel = (params) => {
+    panel = {
+        "type": "vonage-status-panel",
+        "title": params.title,
+        "gridPos": params.gridPos,
+        "id": Math.random(1, 1000000),
+        "datasource": null,
+        "targets": insertMeasurements(params.nodes, params.measurement),
+        "flipCard": false,
+        "flipTime": 5,
+        "colorMode": "Panel",
+        "colors": {
+          "crit": "rgba(245, 54, 54, 0.9)",
+          "warn": "rgba(237, 129, 40, 0.9)",
+          "ok": "rgba(50, 128, 45, 0.9)",
+          "disable": "rgba(128, 128, 128, 0.9)"
+        },
+        "isGrayOnNoData": false,
+        "isIgnoreOKColors": false,
+        "isHideAlertsOnDisable": false,
+        "displayName": params.title,
+        "links": [],
+        "timeFrom": "2m",
+        "clusterName": params.title,
+        "hideTimeOverride": true,
+        "transparent": true
+      }
+    console.log(` - Inserting status panel for ${params.nodes} with ${params.measurement}`)
     return panel
 }

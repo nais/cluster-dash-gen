@@ -84,7 +84,7 @@ exports.aggregate = (node) => {
                 },
                 {
                     "params": [],
-                    "type": "mean"
+                    "type": "last"
                 }
             ]
         ],
@@ -323,6 +323,60 @@ exports.memoryPercentCached = (node) => {
         ]
     }
     return measurement
+}
+
+exports.aggregateStatusPanel = (node) => {
+    meassurement = {
+        "refId": "B",
+        "policy": "default",
+        "resultFormat": "time_series",
+        "orderByTime": "ASC",
+        "tags": [
+            {
+                "key": "hostname",
+                "operator": "=",
+                "value": node
+            }
+        ],
+        "groupBy": [
+            {
+                "type": "time",
+                "params": [
+                    "$__interval"
+                ]
+            },
+            {
+                "type": "fill",
+                "params": [
+                    "null"
+                ]
+            }
+        ],
+        "select": [
+            [
+                {
+                    "type": "field",
+                    "params": [
+                        "value"
+                    ]
+                },
+                {
+                    "type": "last",
+                    "params": []
+                }
+            ]
+        ],
+        "measurement": "nais.aggregate",
+        "valueHandler": "Number Threshold",
+        "displayType": "Regular",
+        "alias": node,
+        "aggregation": "Max",
+        "crit": 1,
+        "warn": 1,
+        "units": "none",
+        "decimals": 2
+    }
+    return meassurement
 }
 
 exports.processDockerd = (node) => {

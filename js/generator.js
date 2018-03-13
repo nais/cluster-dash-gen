@@ -30,11 +30,8 @@ const injectGridPosAndNodes = (panel, grid, nodes) => {
 const insertElements = (dashboard) => {
     let elementArray = []
     if (dashboard.panels) {
-        console.log('panels!')
         dashboard.panels.forEach(e => {
-            console.log('WUUUUTU1', elementArray)
             if (e.panel === 'singleStat') {
-                console.log('singlestat')
                 if (!e.nodes) {
                     elementArray.push(panel.singleStat(e))
                 }
@@ -65,7 +62,6 @@ const insertElements = (dashboard) => {
                 }
             }
             if (e.type === 'row') {
-                console.log('row')
                 elementArray.push(createRow(e))
             }
             if (e.panel === 'graph') {
@@ -77,10 +73,12 @@ const insertElements = (dashboard) => {
             if (e.panel === 'discrete') {
                 elementArray.push(panel.discrete(e))
             }
+            if (e.panel === 'statusPanel') {
+                elementArray.push(panel.statusPanel(e))
+            }
         })
     }
 
-    console.log(elementArray)
     return elementArray
 }
 
