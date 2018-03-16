@@ -33,6 +33,6 @@ if (!program.cluster || !program.masters || !program.workers || !program.templat
             nodes: program.masters.concat(program.workers)
         }
     )
-    const dashboard = generateDashboard(program.cluster, program.masters, program.workers, config)
+    const dashboard = generateDashboard(config)
     util.postUrl('https://grafana.adeo.no/api/dashboards/db/', dashboard)
 }

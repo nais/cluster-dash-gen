@@ -54,11 +54,12 @@ const insertPanels = (panels) => {
 
 module.exports = (params) => {
     row = {
-        "gridPos": params.config.gridPos || null,
+        "gridPos": params.gridPos || null,
         "id": Math.random(1, 1000000),
         "panels": [],
-        "title": params.config.title || "Row title",
+        "title": params.title || "Row title",
         "type": "row",
     }
+    console.log(` - Inserting row `)
     return row
 }

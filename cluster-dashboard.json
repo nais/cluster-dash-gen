@@ -9,235 +9,153 @@
         "timezone": "browser",
         "panels": [
             {
-                "panel": "text",
-                "text": "{{cluster}}",
-                "gridPos": {
-                    "h": 3,
-                    "w": 8,
-                    "x": 0,
-                    "y": 0
-                }
+                "type": "text",
+                "text": "{{cluster}}"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "No of pods",
                 "datasource": "{{cluster}}",
-                "measurement": "kubePodContainerInfoCount",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 8,
-                    "y": 0
-                }
+                "measurement": "kubePodContainerInfoCount"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Pending pods",
                 "datasource": "{{cluster}}",
-                "measurement": "kubePodStatusPhasePending",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 12,
-                    "y": 0
-                }
+                "measurement": "kubePodStatusPhasePending"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Available deployments",
                 "datasource": "{{cluster}}",
-                "measurement": "kubeDeploymentsStatusReplicasAvailable",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 16,
-                    "y": 0
-                }
+                "measurement": "kubeDeploymentsStatusReplicasAvailable"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Unavailable deployments",
                 "datasource": "{{cluster}}",
-                "measurement": "kubeDeploymentsStatusReplicasUnavailable",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 20,
-                    "y": 0
-                }
+                "measurement": "kubeDeploymentsStatusReplicasUnavailable"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Cores usage",
                 "datasource": "{{cluster}}",
                 "postfix": "cores",
-                "measurement": "totalClusterCoresUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 0,
-                    "y": 3
-                }
+                "measurement": "totalClusterCoresUsage"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Total CPU",
                 "datasource": "{{cluster}}",
                 "postfix": "cores",
-                "measurement": "totalClusterCores",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 4,
-                    "y": 3
-                }
+                "measurement": "totalClusterCores"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Memory usage",
                 "datasource": "{{cluster}}",
                 "postfix": "GB",
-                "measurement": "totalClusterMemoryUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 8,
-                    "y": 3
-                }
+                "measurement": "totalClusterMemoryUsage"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Total memory",
                 "datasource": "{{cluster}}",
                 "postfix": "GB",
-                "measurement": "totalClusterMemory",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 12,
-                    "y": 3
-                }
+                "measurement": "totalClusterMemory"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Storage usage",
                 "datasource": "{{cluster}}",
                 "postfix": "GB",
-                "measurement": "totalClusterStorageUsage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 16,
-                    "y": 3
-                }
+                "measurement": "totalClusterStorageUsage"
             },
             {
-                "panel": "singleStat",
+                "type": "singleStat",
                 "title": "Total storage",
                 "datasource": "{{cluster}}",
                 "postfix": "?",
-                "measurement": "totalClusterStorage",
-                "gridPos": {
-                    "h": 3,
-                    "w": 4,
-                    "x": 20,
-                    "y": 3
-                }
+                "measurement": "totalClusterStorage"
             },
             {
-                "panel": "singleStat",
-                "subtype": "gauge",
+                "type": "singleStatGauge",
                 "title": "CPU usage",
                 "postfix": "%",
                 "datasource": "{{cluster}}",
-                "measurement": "totalClusterCoresUsagePercent",
-                "gridPos": {
-                    "h": 6,
-                    "w": 8,
-                    "x": 0,
-                    "y": 6
-                }
+                "measurement": "totalClusterCoresUsagePercent"
             },
             {
-                "panel": "singleStat",
-                "subtype": "gauge",
+                "type": "singleStatGauge",
                 "title": "Memory usage",
                 "postfix": "%",
                 "datasource": "{{cluster}}",
-                "measurement": "totalClusterMemoryUsagePercent",
-                "gridPos": {
-                    "h": 6,
-                    "w": 8,
-                    "x": 8,
-                    "y": 6
-                }
+                "measurement": "totalClusterMemoryUsagePercent"
             },
             {
-                "panel": "singleStat",
-                "subtype": "gauge",
+                "type": "singleStatGauge",
                 "title": "Storage usage",
                 "postfix": "%",
                 "datasource": "{{cluster}}",
-                "measurement": "totalClusterStorageUsagePercent",
-                "gridPos": {
-                    "h": 6,
-                    "w": 8,
-                    "x": 16,
-                    "y": 6
-                }
+                "measurement": "totalClusterStorageUsagePercent"
             },
-       
             {
-                "panel": "singleStat",
-                "subtype": "gauge",
+                "type": "singleStatGauge",
                 "title": "Allocated cores",
                 "datasource": "{{cluster}}",
                 "postfix": "%",
-                "measurement": "totalClusterCoresAllocatedPercent",
-                "gridPos": {
-                    "h": 6,
-                    "w": 8,
-                    "x": 0,
-                    "y": 12
-                }
+                "measurement": "totalClusterCoresAllocatedPercent"
             },
             {
-                "panel": "singleStat",
-                "subtype": "gauge",
+                "type": "singleStatGauge",
                 "title": "Allocated memory",
                 "datasource": "{{cluster}}",
                 "postfix": "%",
-                "measurement": "totalClusterMemoryAllocatedPercent",
-                "gridPos": {
-                    "h": 6,
-                    "w": 8,
-                    "x": 8,
-                    "y": 12
-                }
+                "measurement": "totalClusterMemoryAllocatedPercent"
             },
             {
-                "panel": "statusPanel",
+                "type": "graph",
+                "nodes": "{{workers}}",
+                "measuremnts": ["cpuIdle"]
+
+            },
+            {
+                "type": "statusPanel",
                 "nodes": "{{masters}}",
                 "title": "Master status",
-                "measurement": "aggregateStatusPanel",
-                "gridPos": {
-                    "h": 3,
-                    "w": 12,
-                    "x": 0,
-                    "y": 27
-                }
+                "measurement": "aggregateStatusPanel"
             },
             {
-                "panel": "statusPanel",
+                "type": "statusPanel",
                 "nodes": "{{workers}}",
                 "title": "Worker status",
-                "measurement": "aggregateStatusPanel",
-                "gridPos": {
-                    "h": 3,
-                    "w": 12,
-                    "x": 12,
-                    "y": 27
-                }
+                "measurement": "aggregateStatusPanel"
+            },
+            {
+                "type": "row",
+                "repeating": true,
+                "collapsed": false,
+                "nodes": "{{workers}}",
+                "panels": [
+                    {
+                        "type": "discrete",
+                        "nodes": null,
+                        "measurement": [
+                            "processDockerd",
+                            "processKubelet",
+                            "processFlanneld",
+                            "processKubeProxy",
+                            "interfaceDocker0",
+                            "interfaceFlannel"
+                        ]
+                    },
+                    {
+                        "type": "graph",
+                        "nodes": null,
+                        "measurement": "cpuIdle",
+                        "title": "Node CPU Load"
+                    }
+                ]
             }
         ],
         "schemaVersion": 6,

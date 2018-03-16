@@ -32,11 +32,29 @@ const insertMeasurements = (nodes, type) => {
         measurementArray.push(measurement[type](nodes[0]))
     }
     if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'string') {
+        console.log('kommer du hit?')
         nodes.forEach((e, i) => {
             measurementArray.push(measurement[type](nodes[i]))
         })
     }
+
+    if (type === 'CPUIdle') {
+        console.log(measurementArray)
+    }
     return measurementArray
+}
+
+exports.row = (params) => {
+    row = {
+        "collapsed": params.collapsed,
+        "gridPos": params.gridPos || null,
+        "id": Math.random(1, 1000000),
+        "panels": [],
+        "title": params.title || "Row title",
+        "type": "row",
+    }
+    console.log(` - Inserting row `)
+    return row
 }
 
 exports.text = (params) => {
@@ -47,7 +65,7 @@ exports.text = (params) => {
         "links": [],
         "gridPos": params.gridPos,
         "mode": "html",
-        "title": "",
+        "title": params.title,
         "transparent": true,
         "type": "text"
     }
@@ -55,148 +73,139 @@ exports.text = (params) => {
     return panel
 }
 
+exports.singleStatGauge = (params) => {
+    panel = {
+        "cacheTimeout": null,
+        "colorValue": false,
+        "datasource": params.datasource || "influxdb",
+        "format": params.format || "none",
+        "id": Math.random(1, 1000000),
+        "interval": null,
+        "links": [],
+        "gridPos": params.gridPos,
+        "nullText": null,
+        "targets": insertMeasurements(params.nodes, params.measurement),
+        "title": params.title || params.nodes || "",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "postfix": ` ${params.postfix || ""}`,
+        "postfixFontSize": "80%",
+        "prefix": ` ${params.prefix || ""}`,
+        "prefixFontSize": "80%",
+        "gauge": {
+            "show": true,
+            "minValue": 0,
+            "maxValue": 100,
+            "thresholdMarkers": true,
+            "thresholdLabels": false
+        },
+        "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+        ],
+        "thresholds": "70,90",
+    }
+    console.log(` - Inserting ${params.measurement} gauge singlestat panel with: ${params.nodes || "cluster query"}`)
+    return panel
+}
+
+exports.singleStatHealthCheck = (params) => {
+    panel = {
+        "cacheTimeout": null,
+        "colorBackground": true,
+        "colorValue": false,
+        "colors": [
+            "#299c46",
+            "#299c46",
+            "#d44a3a"
+        ],
+        "datasource": params.datasource || "influxdb",
+        "format": params.format || "none",
+        "gridPos": params.gridPos,
+        "id": Math.random(1, 1000000),
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+            {
+                "name": "value to text",
+                "value": 1
+            },
+            {
+                "name": "range to text",
+                "value": 2
+            }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+            {
+                "from": "null",
+                "text": "No data",
+                "to": "null"
+            }
+        ],
+        "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+        },
+        "tableColumn": "",
+        "targets": insertMeasurements(params.nodes, params.measurement),
+        "thresholds": "0,1",
+        "title": params.title || params.nodes || "",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "120%",
+        "valueMaps": [
+            {
+                "op": "=",
+                "text": "Healthy",
+                "value": "0"
+            },
+            {
+                "op": "=",
+                "text": "Error",
+                "value": "1"
+            }
+        ],
+        "valueName": "current"
+    }
+    console.log(` - Inserting ${params.measurement} health check singlestat panel with: ${params.nodes}`)
+    return panel
+}
+
 exports.singleStat = (params) => {
-    // return default panel if nothing else is specified
-    if (params.subtype === 'normal' || !params.subtype) {
-        panel = {
-            "cacheTimeout": null,
-            "colorValue": false,
-            "datasource": params.datasource || "influxdb",
-            "format": params.format || "none",
-            "id": Math.random(1, 1000000),
-            "interval": null,
-            "links": [],
-            "gridPos": params.gridPos,
-            "nullText": null,
-            // "span": params.width || 3,
-            "targets": insertMeasurements(params.nodes, params.measurement),
-            "title": params.title || params.nodes || "",
-            "transparent": true,
-            "type": "singlestat",
-            "valueFontSize": "120%",
-            "postfix": ` ${params.postfix || ""}`,
-            "postfixFontSize": "80%",
-            "prefix": ` ${params.prefix || ""}`,
-            "prefixFontSize": "80%"
-        }
-        console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
-        return panel
+    panel = {
+        "cacheTimeout": null,
+        "colorValue": false,
+        "datasource": params.datasource || "influxdb",
+        "format": params.format || "none",
+        "id": Math.random(1, 1000000),
+        "interval": null,
+        "links": [],
+        "gridPos": params.gridPos,
+        "nullText": null,
+        "targets": insertMeasurements(params.nodes, params.measurement),
+        "title": params.title || params.nodes || "",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "120%",
+        "postfix": ` ${params.postfix || ""}`,
+        "postfixFontSize": "80%",
+        "prefix": ` ${params.prefix || ""}`,
+        "prefixFontSize": "80%"
     }
-    if (params.subtype === 'gauge' || !params.subtype) {
-        panel = {
-            "cacheTimeout": null,
-            "colorValue": false,
-            "datasource": params.datasource || "influxdb",
-            "format": params.format || "none",
-            "id": Math.random(1, 1000000),
-            "interval": null,
-            "links": [],
-            "gridPos": params.gridPos,
-            "nullText": null,
-            // "span": params.width || 3,
-            "targets": insertMeasurements(params.nodes, params.measurement),
-            "title": params.title || params.nodes || "",
-            "transparent": true,
-            "type": "singlestat",
-            "valueFontSize": "80%",
-            "postfix": ` ${params.postfix || ""}`,
-            "postfixFontSize": "80%",
-            "prefix": ` ${params.prefix || ""}`,
-            "prefixFontSize": "80%",
-            "gauge": {
-                "show": true,
-                "minValue": 0,
-                "maxValue": 100,
-                "thresholdMarkers": true,
-                "thresholdLabels": false
-            },
-            "colors": [
-                "#299c46",
-                "rgba(237, 129, 40, 0.89)",
-                "#d44a3a"
-              ],
-            "thresholds": "70,90",
-
-        }
-        console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
-        return panel
-    }
-    if (params.subtype === 'healthCheck') {
-        // console.log('PARAMS', params)
-        panel = {
-            "cacheTimeout": null,
-            "colorBackground": true,
-            "colorValue": false,
-            "colors": [
-                "#299c46",
-                "#299c46",
-                "#d44a3a"
-            ],
-            "datasource": params.datasource || "influxdb",
-            "format": params.format || "none",
-            "gridPos": params.gridPos,
-            "id": Math.random(1, 1000000),
-            "interval": null,
-            "links": [],
-            "mappingType": 1,
-            "mappingTypes": [
-                {
-                    "name": "value to text",
-                    "value": 1
-                },
-                {
-                    "name": "range to text",
-                    "value": 2
-                }
-            ],
-            "maxDataPoints": 100,
-            "nullPointMode": "connected",
-            "nullText": null,
-            "postfix": "",
-            "postfixFontSize": "50%",
-            "prefix": "",
-            "prefixFontSize": "50%",
-            "rangeMaps": [
-                {
-                    "from": "null",
-                    "text": "No data",
-                    "to": "null"
-                }
-            ],
-            // "span": params.width || 3,
-            "sparkline": {
-                "fillColor": "rgba(31, 118, 189, 0.18)",
-                "full": false,
-                "lineColor": "rgb(31, 120, 193)",
-                "show": false
-            },
-            "tableColumn": "",
-            "targets": insertMeasurements(params.nodes, params.measurement),
-            "thresholds": "0,1",
-            "title": params.title || params.nodes || "",
-            "transparent": true,
-            "type": "singlestat",
-            "valueFontSize": "120%",
-            "valueMaps": [
-                {
-                    "op": "=",
-                    "text": "Healthy",
-                    "value": "0"
-                },
-                {
-                    "op": "=",
-                    "text": "Error",
-                    "value": "1"
-                }
-            ],
-            "valueName": "current"
-        }
-        console.log(` - Inserting ${params.measurement} ${params.subtype} singlestat panel with: ${params.nodes}`)
-        // console.log('gridPos', panel.gridPos, params.gridPos)
-        
-        return panel
-    }
-
+    console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
+    return panel
 }
 
 exports.graph = (params) => {
@@ -208,7 +217,7 @@ exports.graph = (params) => {
         "fill": 1,
         "hideTimeOverride": true,
         "gridPos": params.gridPos,
-        "id": params.id,
+        "id": Math.random(0, 1000000),
         "interval": "5m",
         "legend": {
             "alignAsTable": true,
@@ -297,7 +306,7 @@ exports.discrete = (params) => {
         "gridPos": params.gridPos,
         "height": "",
         "highlightOnMouseover": true,
-        "id": params.id,
+        "id": Math.random(0, 1000000),
         "legendSortBy": "-ms",
         "lineColor": "rgba(128, 128, 128, 1.0)",
         "links": [],
@@ -356,10 +365,10 @@ exports.statusPanel = (params) => {
         "flipTime": 5,
         "colorMode": "Panel",
         "colors": {
-          "crit": "rgba(245, 54, 54, 0.9)",
-          "warn": "rgba(237, 129, 40, 0.9)",
-          "ok": "rgba(50, 128, 45, 0.9)",
-          "disable": "rgba(128, 128, 128, 0.9)"
+            "crit": "rgba(245, 54, 54, 0.9)",
+            "warn": "rgba(237, 129, 40, 0.9)",
+            "ok": "rgba(50, 128, 45, 0.9)",
+            "disable": "rgba(128, 128, 128, 0.9)"
         },
         "isGrayOnNoData": false,
         "isIgnoreOKColors": false,
@@ -370,7 +379,7 @@ exports.statusPanel = (params) => {
         "clusterName": params.title,
         "hideTimeOverride": true,
         "transparent": true
-      }
+    }
     console.log(` - Inserting status panel for ${params.nodes} with ${params.measurement}`)
     return panel
 }
