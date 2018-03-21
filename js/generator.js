@@ -8,7 +8,7 @@ module.exports = (config) => {
             "title": config.dashboard.title,
             "tags": config.dashboard.tags,
             "timezone": "browser",
-            "panels": insertPanels(defaultSize, config.dashboard.panels),
+            "panels": insertPanels(config.dashboard.panels),
             "refresh": "30s",
             "schemaVersion": 6,
             "version": 0,
@@ -25,11 +25,11 @@ module.exports = (config) => {
 // Default size of panels
 const defaultSize = {
     discrete: {
-        h: 6,
+        h: 8,
         w: 8
     },
     graph: {
-        h: 6,
+        h: 8,
         w: 8
     },
     row: {
@@ -61,7 +61,7 @@ let gridPos = {
     y: 0
 }
 
-const insertPanels = (defaultSize, panels) => {
+const insertPanels = (panels) => {
     let panelArray = []
     panels.forEach((panel, index) => {
         // Check if panel has a gridPos object, add empty one if not
@@ -78,12 +78,12 @@ const insertPanels = (defaultSize, panels) => {
                     panelArray.push(createPanel[panel.type](panelWidthGridPos))
                     // If we're adding a row, we need to iterate trough the rows own panel array
                     panel.panels.forEach(rowPanel => {
-                        const panelWidthGridPos = updateGridPos({ ...rowPanel, gridPos: {}, nodes: node, title: node }) // Enrich panel object with empty gridPos object, node and title
+                        const panelWidthGridPos = updateGridPos({ ...rowPanel, gridPos: {}, nodes: node }) // Enrich panel object with empty gridPos object, node and title
                         panelArray.push(createPanel[rowPanel.type](panelWidthGridPos))
                     })
                 } else {
                     // If repeating panel while not a row, add one panel for each node in array
-                    const panelWidthGridPos = updateGridPos({ ...panel, nodes: node, title: node }) // Enrich panel object with node and title
+                    const panelWidthGridPos = updateGridPos({ ...panel, nodes: node }) // Enrich panel object with node and title
                     panelArray.push(createPanel[panel.type](panelWidthGridPos))
                 }
             })

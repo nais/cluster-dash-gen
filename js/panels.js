@@ -32,14 +32,9 @@ const insertMeasurements = (nodes, type) => {
         measurementArray.push(measurement[type](nodes[0]))
     }
     if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'string') {
-        console.log('kommer du hit?')
         nodes.forEach((e, i) => {
             measurementArray.push(measurement[type](nodes[i]))
         })
-    }
-
-    if (type === 'CPUIdle') {
-        console.log(measurementArray)
     }
     return measurementArray
 }
@@ -241,7 +236,6 @@ exports.graph = (params) => {
         "points": false,
         "renderer": "flot",
         "spaceLength": 10,
-        // "span": params.width || 4,
         "stack": params.stack || false,
         "steppedLine": false,
         "targets": insertMeasurements(params.nodes, params.measurement),
@@ -333,7 +327,7 @@ exports.discrete = (params) => {
         // "span": params.width || 4,
         "targets": insertMeasurements(params.nodes, params.measurement),
         "textSize": 12,
-        "timeFrom": null,
+        "timeFrom": params.timeFrom || null,
         "title": params.title || "",
         "transparent": true,
         "type": "natel-discrete-panel",

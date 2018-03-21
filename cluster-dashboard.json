@@ -114,12 +114,6 @@
                 "measurement": "totalClusterMemoryAllocatedPercent"
             },
             {
-                "type": "graph",
-                "nodes": "{{workers}}",
-                "measuremnts": ["cpuIdle"]
-
-            },
-            {
                 "type": "statusPanel",
                 "nodes": "{{masters}}",
                 "title": "Master status",
@@ -135,11 +129,58 @@
                 "type": "row",
                 "repeating": true,
                 "collapsed": false,
+                "nodes": "{{masters}}",
+                "panels": [
+                    {
+                        "type": "discrete",
+                        "nodes": null,
+                        "timeFrom": "24h",
+                        "title": "Master component status",
+                        "measurement": [
+                            "processDockerd",
+                            "processKubelet",
+                            "interfaceDocker0",
+                            "interfaceFlannel",
+                            "componentControllerManager",
+                            "componentScheduler",
+                            "componentEtcd0",
+                            "addonCoredns",
+                            "addonKubernetesDashboard",
+                            "addonTillerDeploy"
+                        ]
+                    },
+                    {
+                        "type": "graph",
+                        "measurement": "cpuIdle",
+                        "title": "Node CPU Load"
+                    },
+                    {
+                        "type": "graph",
+                        "stack": true,
+                        "measurement": [
+                            "memoryUsageWOBuffersCaches",
+                            "memoryPercentCached"
+                        ],
+                        "title": "Node Memory Usage"
+                    },
+                    {
+                        "type": "graph",
+                        "measurement": "diskVarUsage",
+                        "title": "Node Disk Usage (/var)"
+                    }
+                ]
+            },
+            {
+                "type": "row",
+                "repeating": true,
+                "collapsed": false,
                 "nodes": "{{workers}}",
                 "panels": [
                     {
                         "type": "discrete",
                         "nodes": null,
+                        "timeFrom": "24h",
+                        "title": "Worker component status",
                         "measurement": [
                             "processDockerd",
                             "processKubelet",
@@ -151,9 +192,22 @@
                     },
                     {
                         "type": "graph",
-                        "nodes": null,
                         "measurement": "cpuIdle",
                         "title": "Node CPU Load"
+                    },
+                    {
+                        "type": "graph",
+                        "stack": true,
+                        "measurement": [
+                            "memoryUsageWOBuffersCaches",
+                            "memoryPercentCached"
+                        ],
+                        "title": "Node Memory Usage"
+                    },
+                    {
+                        "type": "graph",
+                        "measurement": "diskVarUsage",
+                        "title": "Node Disk Usage (/var)"
                     }
                 ]
             }
