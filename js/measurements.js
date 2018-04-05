@@ -541,3 +541,81 @@ exports.kubeDeploymentsStatusReplicasUnavailable = (clusterName) => {
     }
     return measurement
 }
+
+// TRÆFIK
+
+exports.failedRequests = (clusterName) => {
+    measurement = {
+        "expr": `sum(rate(traefik_requests_total{service=~\"http|https\",code!=\"200\"}[5m]))`
+    }
+    return measurement
+}
+
+exports.successfulRequests = (clusterName) => {
+    measurement = {
+        "expr": `sum(rate(traefik_requests_total{service=~\"http|https\",code=\"200\"}[5m]))`
+    }
+    return measurement
+}
+
+exports.successfulRequestsCodes = (clusterName) => {
+    measurement = {
+        "expr": `sum(rate(traefik_requests_total{code=~\"^[23].*\"}[5m])) by (method, code)`
+    }
+    return measurement
+}
+
+exports.failedRequestsCodes = (clusterName) => {
+    measurement = {
+        "expr": `sum(rate(traefik_requests_total{code!~\"^[23].*\"}[5m])) by (method, code)`
+    }
+    return measurement
+}
+
+exports.histogramQuantile50 = (clusterName) => {
+    measurement = {
+        "expr": `histogram_quantile(0.50, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le))`,
+        "format": "time_series",
+        "intervalFactor": 2,
+        "legendFormat": "50 percentlie",
+        "refId": "B",
+        "step": 20
+    }
+    return measurement
+}
+
+exports.histogramQuantile75 = (clusterName) => {
+    measurement = {
+        "expr": `histogram_quantile(0.75, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le))`,
+        "format": "time_series",
+        "intervalFactor": 2,
+        "legendFormat": "75 percentlie",
+        "refId": "B",
+        "step": 20
+    }
+    return measurement
+}
+
+exports.histogramQuantile90 = (clusterName) => {
+    measurement = {
+        "expr": `histogram_quantile(0.90, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le))`,
+        "format": "time_series",
+        "intervalFactor": 2,
+        "legendFormat": "90 percentlie",
+        "refId": "B",
+        "step": 20
+    }
+    return measurement
+}
+
+exports.histogramQuantile95 = (clusterName) => {
+    measurement = {
+        "expr": `histogram_quantile(0.95, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le))`,
+        "format": "time_series",
+        "intervalFactor": 2,
+        "legendFormat": "95 percentlie",
+        "refId": "B",
+        "step": 20
+    }
+    return measurement
+}

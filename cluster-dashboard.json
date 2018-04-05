@@ -37,46 +37,24 @@
                 "measurement": "kubeDeploymentsStatusReplicasUnavailable"
             },
             {
-                "type": "singleStat",
-                "title": "Cores usage",
-                "datasource": "{{cluster}}",
-                "postfix": "cores",
-                "measurement": "totalClusterCoresUsage"
+                "type": "statusPanel",
+                "nodes": "{{masters}}",
+                "title": "Master status",
+                "measurement": "aggregateStatusPanel",
+                "gridPos": {
+                    "h": 2,
+                    "w": 12
+                }
             },
             {
-                "type": "singleStat",
-                "title": "Total CPU",
-                "datasource": "{{cluster}}",
-                "postfix": "cores",
-                "measurement": "totalClusterCores"
-            },
-            {
-                "type": "singleStat",
-                "title": "Memory usage",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterMemoryUsage"
-            },
-            {
-                "type": "singleStat",
-                "title": "Total memory",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterMemory"
-            },
-            {
-                "type": "singleStat",
-                "title": "Storage usage",
-                "datasource": "{{cluster}}",
-                "postfix": "GB",
-                "measurement": "totalClusterStorageUsage"
-            },
-            {
-                "type": "singleStat",
-                "title": "Total storage",
-                "datasource": "{{cluster}}",
-                "postfix": "?",
-                "measurement": "totalClusterStorage"
+                "type": "statusPanel",
+                "nodes": "{{workers}}",
+                "title": "Worker status",
+                "measurement": "aggregateStatusPanel",
+                "gridPos": {
+                    "h": 2,
+                    "w": 12
+                }
             },
             {
                 "type": "singleStatGauge",
@@ -114,16 +92,52 @@
                 "measurement": "totalClusterMemoryAllocatedPercent"
             },
             {
-                "type": "statusPanel",
-                "nodes": "{{masters}}",
-                "title": "Master status",
-                "measurement": "aggregateStatusPanel"
+                "type": "singleStat",
+                "title": "Successful requests last 5 minutes",
+                "datasource": "{{cluster}}",
+                "sparkline": true,
+                "measurement": "successfulRequests",
+                "gridPos": {
+                    "h": 6,
+                    "w": 4
+                }
             },
             {
-                "type": "statusPanel",
-                "nodes": "{{workers}}",
-                "title": "Worker status",
-                "measurement": "aggregateStatusPanel"
+                "type": "singleStat",
+                "title": "Failed requests last 5 minutes",
+                "datasource": "{{cluster}}",
+                "sparkline": true,
+                "measurement": "failedRequests",
+                "gridPos": {
+                    "h": 6,
+                    "w": 4
+                }            
+            },
+            {
+                "type": "graph",
+                "datasource": "{{cluster}}",
+                "format": "none",
+                "measurement": [
+                    "successfulRequestsCodes"
+                ],
+                "title": "Successful status code count (5m)"
+            },
+            {
+                "type": "graph",
+                "datasource": "{{cluster}}",
+                "format": "none",
+                "measurement": [
+                    "failedRequestsCodes"
+                ],
+                "title": "Failed status code count (5m)"
+            },
+            {
+                "type": "responseHistogramGraph",
+                "datasource": "{{cluster}}",
+                "gridPos": {
+                    "h": 8,
+                    "w": 8
+                }            
             },
             {
                 "type": "row",
@@ -133,7 +147,6 @@
                 "panels": [
                     {
                         "type": "discrete",
-                        "nodes": null,
                         "timeFrom": "24h",
                         "title": "Master component status",
                         "measurement": [
@@ -152,11 +165,13 @@
                     {
                         "type": "graph",
                         "measurement": "cpuIdle",
+                        "max": 100,
                         "title": "Node CPU Load"
                     },
                     {
                         "type": "graph",
                         "stack": true,
+                        "max": 100,
                         "measurement": [
                             "memoryUsageWOBuffersCaches",
                             "memoryPercentCached"
@@ -165,6 +180,7 @@
                     },
                     {
                         "type": "graph",
+                        "max": 100,
                         "measurement": "diskVarUsage",
                         "title": "Node Disk Usage (/var)"
                     }
@@ -193,11 +209,13 @@
                     {
                         "type": "graph",
                         "measurement": "cpuIdle",
+                        "max": 100,
                         "title": "Node CPU Load"
                     },
                     {
                         "type": "graph",
                         "stack": true,
+                        "max": 100,
                         "measurement": [
                             "memoryUsageWOBuffersCaches",
                             "memoryPercentCached"
@@ -206,6 +224,7 @@
                     },
                     {
                         "type": "graph",
+                        "max": 100,
                         "measurement": "diskVarUsage",
                         "title": "Node Disk Usage (/var)"
                     }

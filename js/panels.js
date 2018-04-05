@@ -54,7 +54,7 @@ exports.row = (params) => {
 
 exports.text = (params) => {
     panel = {
-        "content": `<p>\n<img src=\"https://confluence.adeo.no/download/thumbnails/245392474/nais-hvit.png?version=1&modificationDate=1510648603680&api=v2\" height=\"150\" align=\"left\" /img>\n<font size=\"40\">${params.text}</font>\n</p>`,
+        "content": `<p>\n\n<font size=\"40\">${params.text}</font>\n</p>`,
         "height": "100",
         "id": Math.random(1, 1000000),
         "links": [],
@@ -197,7 +197,21 @@ exports.singleStat = (params) => {
         "postfix": ` ${params.postfix || ""}`,
         "postfixFontSize": "80%",
         "prefix": ` ${params.prefix || ""}`,
-        "prefixFontSize": "80%"
+        "prefixFontSize": "80%",
+        "colorBackground": params.colorBackground || false,
+        "colors": [
+            "#299c46",
+            params.bgColor || "#299c46",
+            "#d44a3a"
+        ],
+        "sparkline": {
+            "show": params.sparkline || false,
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "fillColor": "rgba(31, 118, 189, 0.18)"
+        },
+        "decimals": 0
+
     }
     console.log(` - Inserting ${params.measurement} normal singlestat panel with: ${params.nodes || "cluster query"}`)
     return panel
@@ -208,7 +222,7 @@ exports.graph = (params) => {
         "bars": false,
         "dashLength": 10,
         "dashes": false,
-        "datasource": "influxdb",
+        "datasource": params.datasource || "influxdb",
         "fill": 1,
         "hideTimeOverride": true,
         "gridPos": params.gridPos,
@@ -259,10 +273,10 @@ exports.graph = (params) => {
         },
         "yaxes": [
             {
-                "format": "percent",
+                "format": params.format || "percent",
                 "label": null,
                 "logBase": 1,
-                "max": "100",
+                "max": params.max ||  null,
                 "min": "1",
                 "show": true
             },
@@ -327,7 +341,7 @@ exports.discrete = (params) => {
         // "span": params.width || 4,
         "targets": insertMeasurements(params.nodes, params.measurement),
         "textSize": 12,
-        "timeFrom": params.timeFrom || null,
+        "timeFrom": params.timeFrom ||  null,
         "title": params.title || "",
         "transparent": true,
         "type": "natel-discrete-panel",
@@ -372,8 +386,114 @@ exports.statusPanel = (params) => {
         "timeFrom": "2m",
         "clusterName": params.title,
         "hideTimeOverride": true,
-        "transparent": true
+        "transparent": true,
     }
     console.log(` - Inserting status panel for ${params.nodes} with ${params.measurement}`)
+    return panel
+}
+
+exports.responseHistogramGraph = (params) => {
+    panel = {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "datasource": params.datasource || "influxdb",
+        "fill": 1,
+        "gridPos": params.gridPos,
+        "id": Math.random(1, 1000000),
+        "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "links": [],
+        "nullPointMode": "null",
+        "percentage": false,
+        "pointradius": 5,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+            {
+                "expr": "histogram_quantile(0.95, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "format": "time_series",
+                "intervalFactor": 2,
+                "legendFormat": "95 percentlie",
+                "refId": "C",
+                "step": 20
+            },
+            {
+                "expr": "histogram_quantile(0.90, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "format": "time_series",
+                "intervalFactor": 2,
+                "legendFormat": "90 percentlie",
+                "refId": "A",
+                "step": 20
+            },
+            {
+                "expr": "histogram_quantile(0.75, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "format": "time_series",
+                "intervalFactor": 2,
+                "legendFormat": "75 percentlie",
+                "refId": "B",
+                "step": 20
+            },
+            {
+                "expr": "histogram_quantile(0.50, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "format": "time_series",
+                "intervalFactor": 2,
+                "legendFormat": "50 percentlie",
+                "refId": "D",
+                "step": 20
+            }
+        ],
+        "thresholds": [],
+        "timeFrom": "1h",
+        "timeShift": null,
+        "title": "Response time histogram",
+        "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+        },
+        "transparent": true,
+        "type": "graph",
+        "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+        },
+        "yaxes": [
+            {
+                "format": "ms",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            },
+            {
+                "format": "short",
+                "label": null,
+                "logBase": 1,
+                "max": null,
+                "min": null,
+                "show": true
+            }
+        ]
+    }
+    console.log("Inserting response histogram graph")
     return panel
 }
