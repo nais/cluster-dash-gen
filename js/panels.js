@@ -186,6 +186,7 @@ exports.singleStat = (params) => {
         "format": params.format || "none",
         "id": Math.random(1, 1000000),
         "interval": null,
+        "isGrayOnNoData": true,
         "links": [],
         "gridPos": params.gridPos,
         "nullText": null,
@@ -355,8 +356,7 @@ exports.discrete = (params) => {
         "valueTextColor": "#000000",
         "writeAllValues": false,
         "writeLastValue": false,
-        "writeMetricNames": true,
-        "isGrayOnNoData": true
+        "writeMetricNames": true
     }
     console.log(` - Inserting discrete panel for ${params.nodes} with ${params.measurement}`)
     return panel
@@ -379,7 +379,7 @@ exports.statusPanel = (params) => {
             "ok": "rgba(50, 128, 45, 0.9)",
             "disable": "rgba(128, 128, 128, 0.9)"
         },
-        "isGrayOnNoData": false,
+        "isGrayOnNoData": true,
         "isIgnoreOKColors": false,
         "isHideAlertsOnDisable": false,
         "displayName": params.title,

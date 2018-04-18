@@ -11,7 +11,7 @@ const createMeasurement = (node, alias, measurement, key, value) => {
             },
             {
                 "params": [
-                    "previous"
+                    "null"
                 ],
                 "type": "fill"
             }
