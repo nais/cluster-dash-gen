@@ -355,7 +355,8 @@ exports.discrete = (params) => {
         "valueTextColor": "#000000",
         "writeAllValues": false,
         "writeLastValue": false,
-        "writeMetricNames": true
+        "writeMetricNames": true,
+        "isGrayOnNoData": true
     }
     console.log(` - Inserting discrete panel for ${params.nodes} with ${params.measurement}`)
     return panel

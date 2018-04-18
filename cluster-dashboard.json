@@ -42,7 +42,7 @@
                 "title": "Master status",
                 "measurement": "aggregateStatusPanel",
                 "gridPos": {
-                    "h": 2,
+                    "h": 3,
                     "w": 12
                 }
             },
@@ -52,7 +52,7 @@
                 "title": "Worker status",
                 "measurement": "aggregateStatusPanel",
                 "gridPos": {
-                    "h": 2,
+                    "h": 3,
                     "w": 12
                 }
             },
