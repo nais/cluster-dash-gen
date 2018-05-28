@@ -17,6 +17,7 @@ module.exports = (config) => {
                 "to": "now"
             },
         },
+        "folderId": config.dashboard.folderId,
         "overwrite": true,
         "message": "templated cluster dashboard",
     }
@@ -74,7 +75,7 @@ const insertPanels = (panels) => {
             panel.nodes.forEach(node => {
                 if (panel.type === 'row') {
                     // Add row first, then the rows own panels second
-                    const panelWidthGridPos = updateGridPos({...panel, title: node}) // Enrich panel object with title
+                    const panelWidthGridPos = updateGridPos({ ...panel, title: node }) // Enrich panel object with title
                     panelArray.push(createPanel[panel.type](panelWidthGridPos))
                     // If we're adding a row, we need to iterate trough the rows own panel array
                     panel.panels.forEach(rowPanel => {
@@ -89,10 +90,9 @@ const insertPanels = (panels) => {
             })
         } else {
             // For non-repeating panels, only update gridposition 
- 
+
             const panelWidthGridPos = updateGridPos(panel)
             if (panel.type === 'graph') {
-                console.log(panel)
             }
             panelArray.push(createPanel[panel.type](panelWidthGridPos))
         }
