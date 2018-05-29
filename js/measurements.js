@@ -505,7 +505,7 @@ exports.totalClusterStorageUsage = (clusterName) => {
 
 exports.totalClusterStorageUsagePercent = (clusterName) => {
     measurement = {
-        "expr": `sum(container_fs_usage_bytes{device=~"^/dev/\\\\\S*"}) / sum(container_fs_limit_bytes{device=~"^/dev/\\\\\S*"}) * 100`
+        "expr": `100 - sum(node_filesystem_free_bytes{mountpoint=\"/etc/hostname\"}) / sum(node_filesystem_size_bytes{mountpoint=\"/etc/hostname\"}) * 100`
     }
     return measurement
 }
