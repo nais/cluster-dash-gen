@@ -52,6 +52,10 @@ const defaultSize = {
     text: {
         w: 8,
         h: 3
+    },
+    responseHistogramGraph: {
+        w: 8,
+        h: 8
     }
 }
 //Global gridpositioning
@@ -107,7 +111,7 @@ const updateGridPos = (panel) => {
 
     // Check if there is space for the current panel on the row. 
     if (gridPos.x + gridPos.w > 24) {       // Check if there is room for this panel
-        gridPos.x = 0                       // If not, move panel to next row.
+        gridPos.x = 0                       // If not, move panel to next row
         gridPos.y = gridPos.y + gridPos.h   // Y is based on current panel height
     }
     // Update gridPos for current panel
