@@ -56,6 +56,10 @@ const defaultSize = {
     responseHistogramGraph: {
         w: 8,
         h: 8
+    },
+    timePanel: {
+        w: 4,
+        h: 3
     }
 }
 //Global gridpositioning
@@ -87,14 +91,13 @@ const insertPanels = (panels) => {
                         panelArray.push(createPanel[rowPanel.type](panelWidthGridPos))
                     })
                 } else {
-                    // If repeating panel while not a row, add one panel for each node in array
+                    // If repeating panel but not a row, add one panel for each node in array
                     const panelWidthGridPos = updateGridPos({ ...panel, nodes: node }) // Enrich panel object with node and title
                     panelArray.push(createPanel[panel.type](panelWidthGridPos))
                 }
             })
         } else {
             // For non-repeating panels, only update gridposition 
-
             const panelWidthGridPos = updateGridPos(panel)
             if (panel.type === 'graph') {
             }

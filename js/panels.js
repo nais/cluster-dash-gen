@@ -277,7 +277,7 @@ exports.graph = (params) => {
                 "format": params.format || "percent",
                 "label": null,
                 "logBase": 1,
-                "max": params.max ||  null,
+                "max": params.max || null,
                 "min": "1",
                 "show": true
             },
@@ -342,7 +342,7 @@ exports.discrete = (params) => {
         // "span": params.width || 4,
         "targets": insertMeasurements(params.nodes, params.measurement),
         "textSize": 12,
-        "timeFrom": params.timeFrom ||  null,
+        "timeFrom": params.timeFrom || null,
         "title": params.title || "",
         "transparent": true,
         "type": "natel-discrete-panel",
@@ -498,3 +498,87 @@ exports.responseHistogramGraph = (params) => {
     console.log("Inserting response histogram graph")
     return panel
 }
+
+exports.timePanel = (params) => {
+    const panel = {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+            "#299c46",
+            "#299c46",
+            "#d44a3a"
+        ],
+        "datasource": params.datasource || "preprod-fss",
+        "decimals": 0,
+        "format": "dateTimeAsIso",
+        "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+        },
+        "gridPos": params.gridPos,
+        "id": Math.random(1, 1000000),
+        "interval": null,
+        "isGrayOnNoData": true,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+            {
+                "name": "value to text",
+                "value": 1
+            },
+            {
+                "name": "range to text",
+                "value": 2
+            }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "postfix": " ",
+        "postfixFontSize": "80%",
+        "prefix": " ",
+        "prefixFontSize": "80%",
+        "rangeMaps": [
+            {
+                "from": "null",
+                "text": "N/A",
+                "to": "null"
+            }
+        ],
+        "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": false
+        },
+        "tableColumn": "__name__",
+        "targets": [
+            {
+                "expr": "sum(node_time_seconds)",
+                "format": "time_series",
+                "instant": true,
+                "intervalFactor": 1,
+                "refId": "A"
+            }
+        ],
+        "thresholds": "",
+        "title": params.title || "Last update",
+        "transparent": true,
+        "type": "singlestat",
+        "valueFontSize": "120%",
+        "valueMaps": [
+            {
+                "op": "=",
+                "text": "N/A",
+                "value": "null"
+            }
+        ],
+        "valueName": "last_time"
+    }
+    console.log("Inserting time panel")
+    return panel
+} 
