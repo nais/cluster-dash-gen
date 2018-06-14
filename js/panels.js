@@ -358,7 +358,7 @@ exports.discrete = (params) => {
         "writeLastValue": false,
         "writeMetricNames": true
     }
-    console.log(` - Inserting discrete panel for ${params.nodes || params.datasource}} with ${params.measurement}`)
+    console.log(` - Inserting discrete panel for ${params.nodes || params.datasource} with ${params.measurement}`)
     return panel
 }
 
