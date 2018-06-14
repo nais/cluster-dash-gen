@@ -379,6 +379,61 @@ exports.aggregateStatusPanel = (node) => {
     return meassurement
 }
 
+
+
+exports.clusterUptime = (node, datasource) => {
+    meassurement = {
+        "alias": "uptime",
+        "groupBy": [
+            {
+                "params": [
+                    "$__interval"
+                ],
+                "type": "time"
+            },
+            {
+                "params": [
+                    "previous"
+                ],
+                "type": "fill"
+            }
+        ],
+        "measurement": "pokes",
+        "orderByTime": "ASC",
+        "policy": "default",
+        "refId": "A",
+        "resultFormat": "time_series",
+        "select": [
+            [
+                {
+                    "params": [
+                        "value"
+                    ],
+                    "type": "field"
+                },
+                {
+                    "params": [],
+                    "type": "last"
+                }
+            ]
+        ],
+        "tags": [
+            {
+                "key": "application",
+                "operator": "=",
+                "value": "nais-testapp"
+            },
+            {
+                "condition": "AND",
+                "key": "environment",
+                "operator": "=",
+                "value": datasource
+            }
+        ]
+    }
+    return meassurement
+}
+
 exports.processDockerd = (node) => {
     return createMeasurement(node, 'dockerd', 'nais.process', 'process', 'dockerd')
 }

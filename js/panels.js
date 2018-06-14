@@ -1,6 +1,6 @@
 const measurement = require('./measurements')
 
-const insertMeasurements = (nodes, type) => {
+const insertMeasurements = (nodes, type, datasource) => {
     let measurementArray = []
     if (!nodes) {
         // Probably a cluster query, inserting empty string
@@ -9,31 +9,31 @@ const insertMeasurements = (nodes, type) => {
     if (typeof (type) === 'object') {
         if (typeof (nodes) === 'string' && typeof (type) === 'object') {
             type.forEach((e) => {
-                measurementArray.push(measurement[e](nodes))
+                measurementArray.push(measurement[e](nodes, datasource))
             })
         }
         if (nodes.length === 1 && typeof (nodes) === 'object' && typeof (type) === 'object') {
             type.forEach((e) => {
-                measurementArray.push(measurement[e](nodes[0]))
+                measurementArray.push(measurement[e](nodes[0], datasource))
             })
         }
         if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'object') {
             type.forEach((e) => {
                 nodes.forEach((element, i) => {
-                    measurementArray.push(measurement[e](nodes[i]))
+                    measurementArray.push(measurement[e](nodes[i], datasource))
                 })
             })
         }
     }
     if (typeof (nodes) === 'string' && typeof (type) === 'string') {
-        measurementArray.push(measurement[type](nodes))
+        measurementArray.push(measurement[type](nodes, datasource))
     }
     if (nodes.length === 1 && typeof (nodes) === 'object' && typeof (type) === 'string') {
-        measurementArray.push(measurement[type](nodes[0]))
+        measurementArray.push(measurement[type](nodes[0], datasource))
     }
     if (nodes.length >= 2 && typeof (nodes) === 'object' && typeof (type) === 'string') {
         nodes.forEach((e, i) => {
-            measurementArray.push(measurement[type](nodes[i]))
+            measurementArray.push(measurement[type](nodes[i], datasource))
         })
     }
     return measurementArray
@@ -291,7 +291,7 @@ exports.graph = (params) => {
             }
         ]
     }
-    console.log(` - Inserting graph panel: ${params.title || "With no title"}, with: ${params.nodes}`)
+    console.log(` - Inserting graph panel: ${params.title || "With no title"}, with: ${params.nodes || "no nodes"}`)
     return panel
 }
 
@@ -340,7 +340,7 @@ exports.discrete = (params) => {
         "rowHeight": 24,
         "showLegend": false,
         // "span": params.width || 4,
-        "targets": insertMeasurements(params.nodes, params.measurement),
+        "targets": insertMeasurements(params.nodes, params.measurement, params.datasource),
         "textSize": 12,
         "timeFrom": params.timeFrom || null,
         "title": params.title || "",
@@ -358,7 +358,7 @@ exports.discrete = (params) => {
         "writeLastValue": false,
         "writeMetricNames": true
     }
-    console.log(` - Inserting discrete panel for ${params.nodes} with ${params.measurement}`)
+    console.log(` - Inserting discrete panel for ${params.nodes || params.datasource}} with ${params.measurement}`)
     return panel
 }
 
