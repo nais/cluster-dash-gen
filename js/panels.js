@@ -426,7 +426,7 @@ exports.responseHistogramGraph = (params) => {
         "steppedLine": false,
         "targets": [
             {
-                "expr": "histogram_quantile(0.95, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "expr": "histogram_quantile(0.95, sum(rate(traefik_backend_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
                 "format": "time_series",
                 "intervalFactor": 2,
                 "legendFormat": "95 percentlie",
@@ -434,7 +434,7 @@ exports.responseHistogramGraph = (params) => {
                 "step": 20
             },
             {
-                "expr": "histogram_quantile(0.90, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "expr": "histogram_quantile(0.90, sum(rate(traefik_backend_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
                 "format": "time_series",
                 "intervalFactor": 2,
                 "legendFormat": "90 percentlie",
@@ -442,7 +442,7 @@ exports.responseHistogramGraph = (params) => {
                 "step": 20
             },
             {
-                "expr": "histogram_quantile(0.75, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "expr": "histogram_quantile(0.75, sum(rate(traefik_backend_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
                 "format": "time_series",
                 "intervalFactor": 2,
                 "legendFormat": "75 percentlie",
@@ -450,7 +450,7 @@ exports.responseHistogramGraph = (params) => {
                 "step": 20
             },
             {
-                "expr": "histogram_quantile(0.50, sum(rate(traefik_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
+                "expr": "histogram_quantile(0.50, sum(rate(traefik_backend_request_duration_seconds_bucket{code=~\"200\"}[5m])) by (le)) ",
                 "format": "time_series",
                 "intervalFactor": 2,
                 "legendFormat": "50 percentlie",
