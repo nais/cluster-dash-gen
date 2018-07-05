@@ -601,14 +601,14 @@ exports.kubeDeploymentsStatusReplicasUnavailable = (clusterName) => {
 
 exports.failedRequests = (clusterName) => {
     measurement = {
-        "expr": `sum(rate(traefik_backend_requests_total{protocol=~\"http|https\",code!=\"200\"}[5m]))`
+        "expr": `sum(rate(traefik_backend_requests_total{protocol=~\"http|https\",code!~\"^[23].*\"}[5m]))`
     }
     return measurement
 }
 
 exports.successfulRequests = (clusterName) => {
     measurement = {
-        "expr": `sum(rate(traefik_backend_requests_total{protocol=~\"http|https\",code=\"200\"}[5m]))`
+        "expr": `sum(rate(traefik_backend_requests_total{protocol=~\"http|https\",code=~\"^[23].*\"}[5m]))`
     }
     return measurement
 }
