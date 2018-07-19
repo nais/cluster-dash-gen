@@ -478,7 +478,7 @@ exports.responseHistogramGraph = (params) => {
         },
         "yaxes": [
             {
-                "format": "ms",
+                "format": "s",
                 "label": null,
                 "logBase": 1,
                 "max": null,
