@@ -1,5 +1,5 @@
 node {
-  stage("trigger dashboard_cd_pipeline") {
-    build job: "dashboard_cd_pipeline"
+  stage("trigger nais_dashboard_cd_pipeline") {
+    build job: "nais_dashboard_cd_pipeline"
   }
 }
