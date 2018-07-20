@@ -1,4 +1,4 @@
 Cluster dashboard generator
 ===========================
 
-> Generates Grafana dashboards for clusters
+Generates Grafana dashboards for clusters
