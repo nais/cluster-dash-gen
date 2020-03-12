@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/nais/cluster-dash-gen#readme",
   "dependencies": {
-    "commander": "^2.14.1",
+    "commander": "^2.20.3",
     "json-templater": "^1.2.0",
     "node-fetch": "^2.0.0"
   }
